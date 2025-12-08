@@ -64,46 +64,26 @@
 
     <!-- Optimierte Script-Ladestrategie -->
     <script>
-      // Immediate functions for performance improvements
-      // Set cache headers via JS for this page
       function setCacheHeaders() {
-        // Try to set Cache-Control header via service worker if available
-        if (
-          "serviceWorker" in navigator &&
-          navigator.serviceWorker.controller
-        ) {
+        if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
           navigator.serviceWorker.controller.postMessage({
             type: "SET_CACHE_HEADERS",
             url: window.location.pathname,
-            headers: {
-              "Cache-Control":
-                "public, max-age=604800, stale-while-revalidate=86400",
-            },
+            headers: { "Cache-Control": "public, max-age=604800, stale-while-revalidate=86400" },
           });
         }
       }
 
-      // Defer less important script loading
       function loadDeferredScripts() {
-        // Load non-critical scripts
         const nonCriticalScripts = [
-          {
-            src: "/scripts/font-awesome-loader.js",
-            defer: true,
-            onload: function () {
-              // Ensure theme functionality is initialized when script loads
-              if (
-                window.LinnTheme &&
-                typeof window.LinnTheme.setupTheme === "function"
-              ) {
-                window.LinnTheme.setupTheme();
-                window.LinnTheme.loadFontAwesomeIcons();
-              }
-            },
-          },
-          { src: "/scripts/asset-preloader.js", defer: true },
+          { src: "/scripts/font-awesome-loader.js", defer: true, onload: function () {
+            if (window.LinnTheme && typeof window.LinnTheme.setupTheme === "function") {
+              window.LinnTheme.setupTheme();
+              window.LinnTheme.loadFontAwesomeIcons();
+            }
+          }},
+          { src: "/scripts/asset-preloader.js", defer: true }
         ];
-
         nonCriticalScripts.forEach((scriptData) => {
           const script = document.createElement("script");
           script.src = scriptData.src;
@@ -112,128 +92,31 @@
           document.head.appendChild(script);
         });
       }
-
-      // Execute immediately
       setCacheHeaders();
-
-      // Load deferred scripts after critical content
-      if (
-        document.readyState === "complete" ||
-        document.readyState === "interactive"
-      ) {
+      if (document.readyState === "complete" || document.readyState === "interactive") {
         loadDeferredScripts();
       } else {
         document.addEventListener("DOMContentLoaded", loadDeferredScripts);
       }
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Set year
-        const yearEl = document.getElementById('year');
-        if (yearEl) yearEl.textContent = new Date().getFullYear();
-        const backToTopButton = document.getElementById('backToTop');
+    </script>
+    <style>
       /* Additional styling for the AGB page */
-      .agb-section {
-        margin-bottom: 2rem;
-      }
-
-      .agb-section h3 {
-        color: var(--accent);
-        margin-top: 1.5rem;
-        margin-bottom: 1rem;
-        font-size: 1.3rem;
-      }
-
-      .agb-section ol {
-        margin-left: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .agb-section ul {
-        margin-left: 2rem;
-        margin-bottom: 1rem;
-      }
-
-      .agb-section p {
-        margin-bottom: 1rem;
-        line-height: 1.6;
-      }
-
-      .back-to-top {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: var(--primary-color);
-        color: white;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        opacity: 0;
-        transition: opacity 0.3s;
-        z-index: 1000;
-      }
-
-      .back-to-top.visible {
-        opacity: 1;
-      }
-
-      .toc {
-        background-color: rgba(0, 127, 139, 0.05);
-        padding: 1.5rem;
-        border-radius: 8px;
-        margin-bottom: 2rem;
-      }
-
-      .toc h3 {
-        margin-top: 0;
-        margin-bottom: 1rem;
-      }
-
-      .toc ol {
-        margin-bottom: 0;
-        counter-reset: item;
-        list-style-type: none;
-        padding-left: 0;
-      }
-
-      .toc li {
-        margin-bottom: 0.5rem;
-        counter-increment: item;
-      }
-
-      .toc li::before {
-        content: counter(item) ".";
-        display: inline-block;
-        width: 1.5em;
-        margin-left: 0em;
-        margin-right: 0.5em;
-        text-align: right;
-        color: var(--primary-color);
-      }
-
-      .section-number {
-        font-weight: bold;
-        color: var(--primary-color);
-        margin-right: 0.5em;
-      }
-
-      .sub-section {
-        margin-left: 1.5rem;
-      }
-
-      .sub-section-title {
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-      }
-
-      .last-update {
-        margin-top: 2rem;
-        font-style: italic;
-      }
+      .agb-section { margin-bottom: 2rem; }
+      .agb-section h3 { color: var(--accent); margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1.3rem; }
+      .agb-section ol { margin-left: 1.5rem; margin-bottom: 1rem; }
+      .agb-section ul { margin-left: 2rem; margin-bottom: 1rem; }
+      .agb-section p { margin-bottom: 1rem; line-height: 1.6; }
+      .back-to-top { position: fixed; bottom: 20px; right: 20px; background-color: var(--primary-color); color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); opacity: 0; transition: opacity 0.3s; z-index: 1000; }
+      .back-to-top.visible { opacity: 1; }
+      .toc { background-color: rgba(0, 127, 139, 0.05); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; }
+      .toc h3 { margin-top: 0; margin-bottom: 1rem; }
+      .toc ol { margin-bottom: 0; counter-reset: item; list-style-type: none; padding-left: 0; }
+      .toc li { margin-bottom: 0.5rem; counter-increment: item; }
+      .toc li::before { content: counter(item) "."; display: inline-block; width: 1.5em; margin-left: 0em; margin-right: 0.5em; text-align: right; color: var(--primary-color); }
+      .section-number { font-weight: bold; color: var(--primary-color); margin-right: 0.5em; }
+      .sub-section { margin-left: 1.5rem; }
+      .sub-section-title { font-weight: bold; margin-bottom: 0.5rem; }
+      .last-update { margin-top: 2rem; font-style: italic; }
     </style>
   </head>
   <body>
@@ -1184,25 +1067,19 @@
     <!-- Script for Back to Top Button -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        const yearEl = document.getElementById("year");
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+
         const backToTopButton = document.getElementById("backToTop");
-
-        // Show button when user scrolls down
-        window.addEventListener("scroll", function () {
-          if (window.pageYOffset > 300) {
-            backToTopButton.classList.add("visible");
-          } else {
-            backToTopButton.classList.remove("visible");
-          }
-        });
-
-        // Smooth scroll to top when button is clicked
-        backToTopButton.addEventListener("click", function (e) {
-          e.preventDefault();
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
+        if (backToTopButton) {
+          window.addEventListener("scroll", function () {
+            if (window.pageYOffset > 300) backToTopButton.classList.add("visible");
+            else backToTopButton.classList.remove("visible");
           });
-        });
+          backToTopButton.addEventListener("click", function (e) {
+            e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" });
+          });
+        }
       });
     </script>
     <script>

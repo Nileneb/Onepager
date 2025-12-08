@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Linn Games - Impressum und rechtliche Informationen">
+        
+        <!-- Security Headers -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' blob: https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self'; frame-src 'self'; object-src 'none'; worker-src 'self'; img-src 'self' data:;">
+        <meta http-equiv="X-Content-Type-Options" content="nosniff">
+        
+        <!-- PWA Support -->
+        <meta name="theme-color" content="#007f8b">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        
+        <title>Impressum - Linn Games</title>
+        
+        <!-- Favicon -->
+        <link rel="icon" href="/static/images/Favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="/static/images/Favicon.ico" type="image/x-icon">
+        
+        <!-- Critical CSS - Load with high priority -->
+        <link rel="preload" href="/styles/critical.css" as="style">
+        <link rel="stylesheet" href="/styles/critical.css">
+        
+    
+        <!-- High-priority preloads -->
+        <link rel="preload" href="/static/images/logo.webp" as="image" fetchpriority="high" type="image/webp">
+        <link rel="preload" href="/styles/common.css" as="style">
+    
+        <!-- Nur common.css importieren (non-blocking) -->
+        <link rel="stylesheet" href="/styles/common.css" type="text/css" media="print" onload="this.media='all'; this.onload=null;">
+        <noscript>
+            <link rel="stylesheet" href="/styles/common.css">
+        </noscript>
+    
+        <!-- Base Scripts deferred -->
+        <script src="/scripts/sw-register.js" defer></script>
+        
+        <!-- Optimierte Script-Ladestrategie -->
+        <script>
+          // Immediate functions for performance improvements
+          // Set cache headers via JS for this page
+          function setCacheHeaders() {
+            // Try to set Cache-Control header via service worker if available
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+              navigator.serviceWorker.controller.postMessage({
+                type: 'SET_CACHE_HEADERS',
+                url: window.location.pathname,
+                headers: {
+                  'Cache-Control': 'public, max-age=604800, stale-while-revalidate=86400'
+                }
+              });
+            }
+          }
+          
+          // Defer less important script loading
+          function loadDeferredScripts() {
+            // Load non-critical scripts
+            const nonCriticalScripts = [
+              { 
+                src: '/scripts/font-awesome-loader.js', 
+                defer: true,
+                onload: function() {
+                  // Ensure theme functionality is initialized when script loads
+                  if (window.LinnTheme && typeof window.LinnTheme.setupTheme === 'function') {
+                    window.LinnTheme.setupTheme();
+                    window.LinnTheme.loadFontAwesomeIcons();
+                  }
+                }
+              },
+              { src: '/scripts/asset-preloader.js', defer: true }
+            ];
+            
+            nonCriticalScripts.forEach(scriptData => {
+              const script = document.createElement('script');
+              script.src = scriptData.src;
+              if (scriptData.defer) script.defer = true;
+              if (scriptData.onload) script.onload = scriptData.onload;
+              document.head.appendChild(script);
+            });
+          }
+          
+          // Execute immediately
+          setCacheHeaders();
+          
+          // Load deferred scripts after critical content
+          if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            loadDeferredScripts();
+          } else {
+            document.addEventListener('DOMContentLoaded', loadDeferredScripts);
+          }
+        </script>
+    </head>
+<body>
+        <header class="site-header">
+            <div class="nav-inner header-container">
+                <a href="/index.html" class="logo-stack" title="Zur Startseite - Linn Games">
+                    <div class="logo-mark"><img src="/static/images/logo.webp" alt="Linn Games Logo" /></div>
+                    <div>
+                        <div class="logo-text-main">Linn Games</div>
+                        <div class="logo-text-sub">Interactive · AI · Web</div>
+                    </div>
+                </a>
+
+                <nav class="nav-links main-nav" id="mainNav">
+                <ul>
+                    <li><a href="/index.html" aria-label="Startseite - Schere-Stein-Papier mit Augmented Reality">Start</a></li>
+                    <li><a href="/pages/Games.html" aria-label="Games - Interaktive Browserspiele und Gamification-Lösungen">Games</a></li>
+                    <li><a href="/pages/AI.html" aria-label="KI-Lösungen - Objekterkennung und maschinelles Lernen">AI</a></li>
+                    <li><a href="/pages/WebDevelopment.html" aria-label="Webentwicklung - Zukunftssichere Lösungen für Unternehmen">WebDevelopment</a></li>
+                </ul>
+                    </nav>
+                    <button
+                        class="theme-toggle"
+                        id="themeToggle"
+                        aria-label="Toggle dark mode"
+                        data-fa-icon="moon"
+                    >
+                        <i class="fas fa-moon" aria-hidden="true"></i>
+                    </button>
+                    <button
+                        class="menu-toggle"
+                        type="button"
+                        id="menu-toggle"
+                        aria-label="Navigation öffnen"
+                    >
+                        <span></span>
+                    </button>
+            </div>
+            <div class="nav-mobile" id="nav-mobile">
+                <a href="/index.html">Start</a>
+                <a href="/pages/Games.html">Games</a>
+                <a href="/pages/AI.html">AI</a>
+                <a href="/pages/WebDevelopment.html">WebDevelopment</a>
+            </div>
+        </header>
+    </header>
+
+    <main>
+        <div class="container">
+            <section id="impressum" class="legal-section" fetchpriority="high">
+                <h2>Impressum</h2>
+                <p>
+                    <strong>Verantwortlich für den Inhalt gemäß § 5 TMG:</strong><br>
+                    Benedikt Linn<br>
+                    Erzbergerstraße 9a<br>
+                    68623 Lampertheim<br>
+                    Deutschland<br>
+                </p>
+                <p>
+                    <strong>Kontakt:</strong><br>
+                    E-Mail: <a href="mailto:info@linn.games">info@linn.games</a><br>
+                </p>
+                <p>
+                    <strong>Berufsbezeichnung:</strong> Freiberufler<br>
+                    <strong>Umsatzsteuer-ID:</strong> Nicht zutreffend<br>
+                </p>
+            </section>
+            
+            <div class="section-divider"></div>
+            
+            <section class="legal-links">
+                <h2>Weitere rechtliche Informationen</h2>
+                <p>Weitere rechtliche Informationen finden Sie in unserer <a href="/pages/dsgvo.html">Datenschutzerklärung</a>.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>About Linn Games</h3>
+                <p>A modern game portal featuring exciting browser-based 3D games with impressive graphics and engaging gameplay.</p>
+                <div class="social-links">
+                    <a href="https://github.com/nileneb" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://discord.gg/cY2nQVW4MZ" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+                <!-- SSL Trust Seal removed to avoid broken/won't load images -->
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="/index.html">Startseite - AR Spiele & KI</a></li>
+                    <li><a href="/pages/Games.html">Interaktive Browserspiele</a></li>
+                    <li><a href="/pages/AI.html">KI & Objekterkennung</a></li>
+                    <li><a href="/pages/WebDevelopment.html">Professionelle Webentwicklung</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/pages/Impressum.html">Impressum</a></li>
+                    <li><a href="/pages/dsgvo.html">Datenschutz</a></li>
+                    <li><a href="/pages/AGB.html">AGB</a></li>
+                    <li><a href="https://discord.gg/cY2nQVW4MZ">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li>
+                        <a href="mailto:info@linn.games">
+                            <i class="fas fa-envelope"></i> info@linn.games
+                        </a>
+                    </li>
+                    <li><i class="fas fa-map-marker-alt"></i> 68623, Lampertheim</li>
+                    <li><i class="fas fa-phone"></i> On request</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; <span id="year">2023</span> www.linn.games. All rights reserved.
+        </div>
+        </footer>
+        <a
+            href="#"
+            class="back-to-top"
+            id="backToTop"
+            aria-label="Zurück nach oben"
+        >
+            <i class="fas fa-arrow-up"></i>
+        </a>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const yearEl = document.getElementById("year");
+                if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+                const backToTopButton = document.getElementById("backToTop");
+                if (backToTopButton) {
+                    window.addEventListener("scroll", function () {
+                        if (window.pageYOffset > 300) backToTopButton.classList.add("visible");
+                        else backToTopButton.classList.remove("visible");
+                    });
+                    backToTopButton.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    });
+                }
+            });
+        </script>
+        <script>
+            // Mobile nav toggler
+            (function () {
+                const toggle = document.getElementById("menu-toggle");
+                const mobileNav = document.getElementById("nav-mobile");
+                if (!toggle || !mobileNav) return;
+                toggle.addEventListener("click", () => {
+                    toggle.classList.toggle("active");
+                    mobileNav.classList.toggle("open");
+                });
+                mobileNav.querySelectorAll("a").forEach((a) =>
+                    a.addEventListener("click", () => {
+                        toggle.classList.remove("active");
+                        mobileNav.classList.remove("open");
+                    })
+                );
+            })();
+        </script>
+</body>
+</html>

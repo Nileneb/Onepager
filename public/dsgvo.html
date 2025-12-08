@@ -63,38 +63,26 @@
 
     <!-- Optimierte Script-Ladestrategie -->
     <script>
-      // Immediate functions for performance improvements
-      // Set cache headers via JS for this page
+      // Set cache headers via JS for this page (service worker)
       function setCacheHeaders() {
-        // Try to set Cache-Control header via service worker if available
-        if (
-          "serviceWorker" in navigator &&
-          navigator.serviceWorker.controller
-        ) {
+        if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
           navigator.serviceWorker.controller.postMessage({
             type: "SET_CACHE_HEADERS",
             url: window.location.pathname,
             headers: {
-              "Cache-Control":
-                "public, max-age=604800, stale-while-revalidate=86400",
+              "Cache-Control": "public, max-age=604800, stale-while-revalidate=86400",
             },
           });
         }
       }
 
-      // Defer less important script loading
       function loadDeferredScripts() {
-        // Load non-critical scripts
         const nonCriticalScripts = [
           {
             src: "/scripts/font-awesome-loader.js",
             defer: true,
             onload: function () {
-              // Ensure theme functionality is initialized when script loads
-              if (
-                window.LinnTheme &&
-                typeof window.LinnTheme.setupTheme === "function"
-              ) {
+              if (window.LinnTheme && typeof window.LinnTheme.setupTheme === "function") {
                 window.LinnTheme.setupTheme();
                 window.LinnTheme.loadFontAwesomeIcons();
               }
@@ -102,7 +90,6 @@
           },
           { src: "/scripts/asset-preloader.js", defer: true },
         ];
-
         nonCriticalScripts.forEach((scriptData) => {
           const script = document.createElement("script");
           script.src = scriptData.src;
@@ -112,24 +99,14 @@
         });
       }
 
-      // Execute immediately
       setCacheHeaders();
-
-      // Load deferred scripts after critical content
-      if (
-        document.readyState === "complete" ||
-        document.readyState === "interactive"
-      ) {
+      if (document.readyState === "complete" || document.readyState === "interactive") {
         loadDeferredScripts();
       } else {
         document.addEventListener("DOMContentLoaded", loadDeferredScripts);
       }
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Set year
-        const yearEl = document.getElementById('year');
-        if (yearEl) yearEl.textContent = new Date().getFullYear();
-        const backToTopButton = document.getElementById('backToTop');
+    </script>
+    <style>
       /* Additional styling for the privacy policy */
       .datenschutz-section {
         margin-bottom: 2rem;
@@ -1027,25 +1004,27 @@
     <!-- Script for Back to Top Button -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        // year
+        const yearEl = document.getElementById("year");
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+
         const backToTopButton = document.getElementById("backToTop");
-
-        // Show button when user scrolls down
-        window.addEventListener("scroll", function () {
-          if (window.pageYOffset > 300) {
-            backToTopButton.classList.add("visible");
-          } else {
-            backToTopButton.classList.remove("visible");
-          }
-        });
-
-        // Smooth scroll to top when button is clicked
-        backToTopButton.addEventListener("click", function (e) {
-          e.preventDefault();
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
+        if (backToTopButton) {
+          // Show button when user scrolls down
+          window.addEventListener("scroll", function () {
+            if (window.pageYOffset > 300) {
+              backToTopButton.classList.add("visible");
+            } else {
+              backToTopButton.classList.remove("visible");
+            }
           });
-        });
+
+          // Smooth scroll to top when button is clicked
+          backToTopButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          });
+        }
       });
     </script>
     <script>
