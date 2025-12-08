@@ -38,39 +38,14 @@
         <!-- Base Scripts deferred -->
         <!-- base scripts consolidated into /script.js -->
         
-        <!-- Optimierte Script-Ladestrategie -->
+        <!-- Deregister old service worker if present -->
         <script>
-          // Immediate functions for performance improvements
-          // Set cache headers via JS for this page
-          function setCacheHeaders() {
-            // Try to set Cache-Control header via service worker if available
-            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-              navigator.serviceWorker.controller.postMessage({
-                type: 'SET_CACHE_HEADERS',
-                url: window.location.pathname,
-                headers: {
-                  'Cache-Control': 'public, max-age=604800, stale-while-revalidate=86400'
-                }
-              });
-            }
-          }
-          
-                    // Defer less important script loading (one consolidated script)
-                    function loadDeferredScripts() {
-                        const script = document.createElement('script');
-                        script.src = '/script.js';
-                        script.defer = true;
-                        document.head.appendChild(script);
-                    }
-          
-          // Execute immediately
-          setCacheHeaders();
-          
-          // Load deferred scripts after critical content
-          if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            loadDeferredScripts();
-          } else {
-            document.addEventListener('DOMContentLoaded', loadDeferredScripts);
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+              for(let registration of registrations) {
+                registration.unregister();
+              }
+            });
           }
         </script>
         <script defer src="/script.js"></script>

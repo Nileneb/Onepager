@@ -45,19 +45,15 @@
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
     // ============================================
-    // SERVICE WORKER REGISTRATION + Font Awesome loader
+    // DEREGISTER OLD SERVICE WORKER + Font Awesome loader
     // ============================================
-    function registerServiceWorker() {
-        try {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js').catch((err) => {
-                    // sw.js may not exist in development; ignore
-                    console.debug('Service worker not registered:', err);
-                });
+    // Remove any old service workers that might be cached
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister();
             }
-        } catch (e) {
-            console.debug('Service worker registration failed:', e);
-        }
+        });
     }
 
     function loadFontAwesomeIcons() {
@@ -69,8 +65,7 @@
         document.head.appendChild(fa);
     }
 
-    // Call them here so consolidated script provides capabilities
-    registerServiceWorker();
+    // Load Font Awesome
     loadFontAwesomeIcons();
 
     // ============================================

@@ -44,37 +44,14 @@
 
     <!-- Base Scripts deferred consolidated into /script.js -->
 
-    <!-- Optimierte Script-Ladestrategie -->
+    <!-- Deregister old service worker if present -->
     <script>
-      // Set cache headers via JS for this page (service worker)
-      function setCacheHeaders() {
-        if (
-          "serviceWorker" in navigator &&
-          navigator.serviceWorker.controller
-        ) {
-          navigator.serviceWorker.controller.postMessage({
-            type: "SET_CACHE_HEADERS",
-            url: window.location.pathname,
-            headers: {
-              "Cache-Control":
-                "public, max-age=604800, stale-while-revalidate=86400",
-            },
-          });
-        }
-      }
-
-      function loadDeferredScripts() {
-        // Script loading consolidated into /script.js
-      }
-
-      setCacheHeaders();
-      if (
-        document.readyState === "complete" ||
-        document.readyState === "interactive"
-      ) {
-        loadDeferredScripts();
-      } else {
-        document.addEventListener("DOMContentLoaded", loadDeferredScripts);
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for(let registration of registrations) {
+            registration.unregister();
+          }
+        });
       }
     </script>
     <style>
