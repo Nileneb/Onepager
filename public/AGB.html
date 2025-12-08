@@ -137,7 +137,7 @@
       }
 
       .agb-section h3 {
-        color: var(--primary-color);
+        color: var(--accent);
         margin-top: 1.5rem;
         margin-bottom: 1rem;
         font-size: 1.3rem;
@@ -239,20 +239,13 @@
   <body>
     <header class="site-header">
       <div class="nav-inner header-container">
-        <div class="logo">
-          <a
-            href="/index.html"
-            title="Zur Startseite - Linn Games Augmented Reality und KI-Lösungen"
-          >
-            <img
-              src="/static/images/logo.webp"
-              alt="Linn Games Logo"
-              width="150"
-              height="150"
-              fetchpriority="high"
-            />
-          </a>
-        </div>
+        <a href="/index.html" class="logo-stack" title="Zur Startseite - Linn Games">
+          <div class="logo-mark"><img src="/static/images/logo.webp" alt="Linn Games Logo" /></div>
+          <div>
+            <div class="logo-text-main">Linn Games</div>
+            <div class="logo-text-sub">Interactive · AI · Web</div>
+          </div>
+        </a>
 
         <nav class="nav-links main-nav" id="mainNav">
           <ul>
@@ -1136,17 +1129,7 @@
             ></a>
             <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
           </div>
-          <!-- SSL Trust Seal with lazy loading -->
-          <div class="ssl-seal">
-            <img
-              src="/static/images/positivessl_trust_seal_md_167x42.png"
-              alt="SSL-Sicherheitszertifikat - Gesicherte Verbindung"
-              width="167"
-              height="42"
-              loading="lazy"
-              fetchpriority="low"
-            />
-          </div>
+            <!-- SSL Trust Seal removed (no image available) -->
         </div>
         <div class="footer-column">
           <h3>Quick Links</h3>
