@@ -45,6 +45,35 @@
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
     // ============================================
+    // SERVICE WORKER REGISTRATION + Font Awesome loader
+    // ============================================
+    function registerServiceWorker() {
+        try {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js').catch((err) => {
+                    // sw.js may not exist in development; ignore
+                    console.debug('Service worker not registered:', err);
+                });
+            }
+        } catch (e) {
+            console.debug('Service worker registration failed:', e);
+        }
+    }
+
+    function loadFontAwesomeIcons() {
+        if (document.querySelector('link[href*="font-awesome"]')) return;
+        const fa = document.createElement('link');
+        fa.rel = 'stylesheet';
+        fa.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+        fa.crossOrigin = 'anonymous';
+        document.head.appendChild(fa);
+    }
+
+    // Call them here so consolidated script provides capabilities
+    registerServiceWorker();
+    loadFontAwesomeIcons();
+
+    // ============================================
     // WEBGL SHADER BACKGROUND
     // ============================================
 
@@ -364,7 +393,7 @@
     // ============================================
 
     const menuToggle = $('.menu-toggle');
-    const mobileNav = $('.mobile-nav');
+    const mobileNav = document.querySelector('.mobile-nav, #nav-mobile, .nav-mobile');
 
     if (menuToggle && mobileNav) {
         menuToggle.addEventListener('click', () => {

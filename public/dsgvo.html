@@ -23,16 +23,16 @@
     <title>Datenschutzerklärung - Linn Games</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="/static/images/Favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link
       rel="shortcut icon"
-      href="/static/images/Favicon.ico"
+      href="/favicon.ico"
       type="image/x-icon"
     />
 
-    <!-- Critical CSS - Load with high priority -->
-    <link rel="preload" href="/styles/critical.css" as="style" />
-    <link rel="stylesheet" href="/styles/critical.css" />
+    <!-- Critical CSS - unified to site styles -->
+    <link rel="preload" href="/styles.css" as="style" />
+    <link rel="stylesheet" href="/styles.css" />
 
     <!-- High-priority preloads -->
     <link
@@ -42,24 +42,11 @@
       fetchpriority="high"
       type="image/webp"
     />
-    <link rel="preload" href="/styles/common.css" as="style" />
+    <!-- not using separate common.css to avoid broken assets; using unified styles.css -->
 
-    <!-- Nur common.css importieren (non-blocking) -->
-    <link
-      rel="stylesheet"
-      href="/styles/common.css"
-      type="text/css"
-      media="print"
-      onload="this.media='all'; this.onload=null;"
-      onerror="this.remove();"
-    />
-    <link rel="stylesheet" href="/styles.css" />
-    <noscript>
-      <link rel="stylesheet" href="/styles/common.css" />
-    </noscript>
+    <!-- using unified styles.css only -->
 
-    <!-- Base Scripts deferred -->
-    <script src="/scripts/sw-register.js" defer></script>
+    <!-- Base Scripts deferred consolidated into /script.js -->
 
     <!-- Optimierte Script-Ladestrategie -->
     <script>
@@ -81,29 +68,7 @@
       }
 
       function loadDeferredScripts() {
-        const nonCriticalScripts = [
-          {
-            src: "/scripts/font-awesome-loader.js",
-            defer: true,
-            onload: function () {
-              if (
-                window.LinnTheme &&
-                typeof window.LinnTheme.setupTheme === "function"
-              ) {
-                window.LinnTheme.setupTheme();
-                window.LinnTheme.loadFontAwesomeIcons();
-              }
-            },
-          },
-          { src: "/scripts/asset-preloader.js", defer: true },
-        ];
-        nonCriticalScripts.forEach((scriptData) => {
-          const script = document.createElement("script");
-          script.src = scriptData.src;
-          if (scriptData.defer) script.defer = true;
-          if (scriptData.onload) script.onload = scriptData.onload;
-          document.head.appendChild(script);
-        });
+        // Script loading consolidated into /script.js
       }
 
       setCacheHeaders();
@@ -1043,23 +1008,6 @@
         }
       });
     </script>
-    <script>
-      // Mobile nav toggler
-      (function () {
-        const toggle = document.getElementById("menu-toggle");
-        const mobileNav = document.getElementById("nav-mobile");
-        if (!toggle || !mobileNav) return;
-        toggle.addEventListener("click", () => {
-          toggle.classList.toggle("active");
-          mobileNav.classList.toggle("open");
-        });
-        mobileNav.querySelectorAll("a").forEach((a) =>
-          a.addEventListener("click", () => {
-            toggle.classList.remove("active");
-            mobileNav.classList.remove("open");
-          })
-        );
-      })();
-    </script>
+    <script defer src="/script.js"></script>
   </body>
 </html>

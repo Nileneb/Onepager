@@ -17,26 +17,26 @@
         <title>Impressum - Linn Games</title>
         
         <!-- Favicon -->
-        <link rel="icon" href="/static/images/Favicon.ico" type="image/x-icon">
-        <link rel="shortcut icon" href="/static/images/Favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
         
-        <!-- Critical CSS - Load with high priority -->
-        <link rel="preload" href="/styles/critical.css" as="style">
-        <link rel="stylesheet" href="/styles/critical.css">
+        <!-- Critical CSS - unified to site styles -->
+        <link rel="preload" href="/styles.css" as="style">
+        <link rel="stylesheet" href="/styles.css">
         
     
         <!-- High-priority preloads -->
         <link rel="preload" href="/static/images/logo.webp" as="image" fetchpriority="high" type="image/webp">
-        <link rel="preload" href="/styles/common.css" as="style">
+        <!-- not using separate common.css to avoid broken assets; using unified styles.css -->
     
         <!-- Nur common.css importieren (non-blocking) -->
-        <link rel="stylesheet" href="/styles/common.css" type="text/css" media="print" onload="this.media='all'; this.onload=null;">
+        <!-- unified style; using styles.css -->
         <noscript>
-            <link rel="stylesheet" href="/styles/common.css">
+            <link rel="stylesheet" href="/styles.css">
         </noscript>
     
         <!-- Base Scripts deferred -->
-        <script src="/scripts/sw-register.js" defer></script>
+        <!-- base scripts consolidated into /script.js -->
         
         <!-- Optimierte Script-Ladestrategie -->
         <script>
@@ -55,32 +55,13 @@
             }
           }
           
-          // Defer less important script loading
-          function loadDeferredScripts() {
-            // Load non-critical scripts
-            const nonCriticalScripts = [
-              { 
-                src: '/scripts/font-awesome-loader.js', 
-                defer: true,
-                onload: function() {
-                  // Ensure theme functionality is initialized when script loads
-                  if (window.LinnTheme && typeof window.LinnTheme.setupTheme === 'function') {
-                    window.LinnTheme.setupTheme();
-                    window.LinnTheme.loadFontAwesomeIcons();
-                  }
-                }
-              },
-              { src: '/scripts/asset-preloader.js', defer: true }
-            ];
-            
-            nonCriticalScripts.forEach(scriptData => {
-              const script = document.createElement('script');
-              script.src = scriptData.src;
-              if (scriptData.defer) script.defer = true;
-              if (scriptData.onload) script.onload = scriptData.onload;
-              document.head.appendChild(script);
-            });
-          }
+                    // Defer less important script loading (one consolidated script)
+                    function loadDeferredScripts() {
+                        const script = document.createElement('script');
+                        script.src = '/script.js';
+                        script.defer = true;
+                        document.head.appendChild(script);
+                    }
           
           // Execute immediately
           setCacheHeaders();
@@ -92,6 +73,7 @@
             document.addEventListener('DOMContentLoaded', loadDeferredScripts);
           }
         </script>
+        <script defer src="/script.js"></script>
     </head>
 <body>
         <header class="site-header">
