@@ -65,12 +65,16 @@
     <script>
       // Set cache headers via JS for this page (service worker)
       function setCacheHeaders() {
-        if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+        if (
+          "serviceWorker" in navigator &&
+          navigator.serviceWorker.controller
+        ) {
           navigator.serviceWorker.controller.postMessage({
             type: "SET_CACHE_HEADERS",
             url: window.location.pathname,
             headers: {
-              "Cache-Control": "public, max-age=604800, stale-while-revalidate=86400",
+              "Cache-Control":
+                "public, max-age=604800, stale-while-revalidate=86400",
             },
           });
         }
@@ -82,7 +86,10 @@
             src: "/scripts/font-awesome-loader.js",
             defer: true,
             onload: function () {
-              if (window.LinnTheme && typeof window.LinnTheme.setupTheme === "function") {
+              if (
+                window.LinnTheme &&
+                typeof window.LinnTheme.setupTheme === "function"
+              ) {
                 window.LinnTheme.setupTheme();
                 window.LinnTheme.loadFontAwesomeIcons();
               }
@@ -100,7 +107,10 @@
       }
 
       setCacheHeaders();
-      if (document.readyState === "complete" || document.readyState === "interactive") {
+      if (
+        document.readyState === "complete" ||
+        document.readyState === "interactive"
+      ) {
         loadDeferredScripts();
       } else {
         document.addEventListener("DOMContentLoaded", loadDeferredScripts);
@@ -176,8 +186,14 @@
   <body>
     <header class="site-header">
       <div class="nav-inner header-container">
-        <a href="/index.html" class="logo-stack" title="Zur Startseite - Linn Games">
-          <div class="logo-mark"><img src="/static/images/logo.webp" alt="Linn Games Logo" /></div>
+        <a
+          href="/index.html"
+          class="logo-stack"
+          title="Zur Startseite - Linn Games"
+        >
+          <div class="logo-mark">
+            <img src="/static/images/logo.webp" alt="Linn Games Logo" />
+          </div>
           <div>
             <div class="logo-text-main">Linn Games</div>
             <div class="logo-text-sub">Interactive · AI · Web</div>
@@ -949,7 +965,7 @@
             ></a>
             <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
           </div>
-            <!-- SSL Trust Seal removed (no image available) -->
+          <!-- SSL Trust Seal removed (no image available) -->
         </div>
         <div class="footer-column">
           <h3>Quick Links</h3>
