@@ -2108,23 +2108,11 @@
           </div>
 
           <div class="cases-grid">
-            <article class="case-card">
-              <div class="case-label">🐱 Interaktives Browsergame</div>
-              <h3 class="case-title">
-                <span>MAU</span> · Schere-Stein-Papier AR
-              </h3>
-              <p class="case-text">
-                Multiplayer Rock-Paper-Scissors mit Kamera-Gesten-Erkennung und
-                ML-basierter Hand-Tracking – spielbar direkt im Browser.
-              </p>
-              <div class="case-tags">
-                <span class="case-tag">Unity WebGL</span>
-                <span class="case-tag">Computer Vision</span>
-                <span class="case-tag">Multiplayer</span>
-                <span class="case-tag">AR Camera</span>
-              </div>
-            </article>
-            <article class="case-card">
+            <article
+              class="case-card"
+              id="snake3d-card"
+              style="cursor: pointer"
+            >
               <div class="case-label">Browsergame</div>
               <h3 class="case-title"><span>Snake3D</span> · WebGPU-Beta</h3>
               <p class="case-text">
@@ -2138,9 +2126,78 @@
                 <span class="case-tag">WebGPU</span>
                 <span class="case-tag">3D-Browsergame</span>
               </div>
+
+              <!-- Game Preview Container -->
+              <div
+                class="game-preview-container"
+                id="snake3d-preview"
+                style="
+                  display: none;
+                  margin-top: 1rem;
+                  padding: 1rem;
+                  background: rgba(0, 0, 0, 0.3);
+                  border-radius: 12px;
+                "
+              >
+                <div class="cookie-notice" id="snake3d-notice">
+                  <p
+                    style="
+                      font-size: 0.85rem;
+                      color: var(--text-muted);
+                      margin-bottom: 0.8rem;
+                    "
+                  >
+                    Diese eingebettete Seite von play.unity.com verwendet
+                    möglicherweise Cookies. Durch das Laden stimmen Sie der
+                    Cookie-Nutzung von Unity Play zu.
+                  </p>
+                  <button
+                    class="btn-secondary"
+                    style="
+                      margin-right: 0.5rem;
+                      padding: 0.6rem 1rem;
+                      font-size: 0.85rem;
+                    "
+                    onclick="loadSnake3DIframe(event)"
+                  >
+                    Inhalt laden
+                  </button>
+                  <a
+                    href="https://play.unity.com/en/games/8be014ae-6b3c-409b-8f15-b801389ab292/snake3d"
+                    target="_blank"
+                    class="btn-secondary"
+                    style="
+                      padding: 0.6rem 1rem;
+                      font-size: 0.85rem;
+                      text-decoration: none;
+                      display: inline-flex;
+                      align-items: center;
+                      gap: 0.3rem;
+                    "
+                    >Direkt auf Unity Play öffnen
+                    <span class="arrow">↗</span></a
+                  >
+                </div>
+                <iframe
+                  id="snake3d-frame"
+                  data-src="https://play.unity.com/en/games/8be014ae-6b3c-409b-8f15-b801389ab292/snake3d"
+                  title="Snake3D - Powered by Unity WebGPU"
+                  width="100%"
+                  height="450"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  loading="lazy"
+                  style="display: none; border-radius: 8px; margin-top: 1rem"
+                >
+                </iframe>
+              </div>
             </article>
 
-            <article class="case-card">
+            <article
+              class="case-card"
+              onclick="window.open('https://github.com/Nileneb/growdash', '_blank')"
+              style="cursor: pointer"
+            >
               <div class="case-label">IoT & AI-Ready</div>
               <h3 class="case-title">
                 <span>GrowDash</span> · Smart Grow Control
@@ -2158,9 +2215,13 @@
               </div>
             </article>
 
-            <article class="case-card">
+            <article
+              class="case-card"
+              onclick="window.open('https://mau.linn.games/', '_blank')"
+              style="cursor: pointer"
+            >
               <div class="case-label">Gamification</div>
-              <h3 class="case-title"><span>Mau</span> · QR Cat Campaign</h3>
+              <h3 class="case-title"><span>MAU</span> · QR Cat Campaign</h3>
               <p class="case-text">
                 Verspielte Kampagne mit einer „City Cat“, die per QR-Codes
                 auftaucht und Leute in eine digitale Story führt – ideal, um
@@ -2245,7 +2306,7 @@
               Aus einem Game-Portal entstand ein <span>Hybrid-Studio</span>.
             </h2>
             <p class="section-lead">
-              Linn Games kommt ursprünglich aus der Welt der Browsergames – und
+              Linn Games kommt ursprünglich aus der Welt der Browsergames und
               kombiniert diese DNA heute mit AI Solutions und Web-Engineering
               für Unternehmen.
             </p>
@@ -2411,6 +2472,35 @@
         // Jahr im Footer automatisch setzen
         const yearEl = document.getElementById("year");
         if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        // Snake3D Card Click Handler
+        const snake3dCard = document.getElementById("snake3d-card");
+        const snake3dPreview = document.getElementById("snake3d-preview");
+        let snake3dExpanded = false;
+
+        if (snake3dCard && snake3dPreview) {
+          snake3dCard.addEventListener("click", function (e) {
+            // Don't toggle if clicking on buttons or links inside the preview
+            if (e.target.closest(".game-preview-container")) return;
+
+            snake3dExpanded = !snake3dExpanded;
+            snake3dPreview.style.display = snake3dExpanded ? "block" : "none";
+          });
+        }
+
+        // Load Snake3D iframe function
+        window.loadSnake3DIframe = function (e) {
+          e.stopPropagation();
+          const frame = document.getElementById("snake3d-frame");
+          const notice = document.getElementById("snake3d-notice");
+
+          if (frame && notice) {
+            const src = frame.getAttribute("data-src");
+            frame.setAttribute("src", src);
+            frame.style.display = "block";
+            notice.style.display = "none";
+          }
+        };
 
         // Mobile Navigation togglen
         const toggle = document.getElementById("menu-toggle");
