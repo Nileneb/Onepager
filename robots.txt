@@ -1,0 +1,43 @@
+# Linn Games robots.txt
+User-agent: *
+Allow: /
+
+# Pages that need search visibility
+Allow: /index.html
+Allow: /pages/Games.html
+Allow: /pages/AI.html
+Allow: /pages/WebDevelopment.html
+Allow: /pages/Impressum.html
+Allow: /pages/dsgvo.html
+Allow: /pages/AGB.html
+Allow: /offline.html
+
+# Disallow sensitive and development directories
+Disallow: /src/
+Disallow: /api/
+Disallow: /node_modules/
+Disallow: /admin/
+Disallow: /private/
+Disallow: /internal/
+Disallow: /scripts/
+
+# Prevent duplicate content issues
+Disallow: /*?*
+Disallow: /*&*
+Disallow: /*/search*
+Disallow: /*/filter*
+
+# Specific search engine settings
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Baiduspider
+Disallow: /
+
+# Sitemap location
+Sitemap: https://linn.games/sitemap.xml

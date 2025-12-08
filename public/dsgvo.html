@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Linn Games - Datenschutzerklärung (DSGVO)">
+        
+        <!-- Security Headers -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' blob: https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self'; frame-src 'self'; object-src 'none'; worker-src 'self'; img-src 'self' data:;">
+        <meta http-equiv="X-Content-Type-Options" content="nosniff">
+        
+        <!-- PWA Support -->
+        <meta name="theme-color" content="#007f8b">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        
+        <title>Datenschutzerklärung - Linn Games</title>
+        
+        <!-- Favicon -->
+        <link rel="icon" href="/static/images/Favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="/static/images/Favicon.ico" type="image/x-icon">
+        
+        <!-- Critical CSS - Load with high priority -->
+        <link rel="preload" href="/styles/critical.css" as="style">
+        <link rel="stylesheet" href="/styles/critical.css">
+        
+        <!-- High-priority preloads -->
+        <link rel="preload" href="/static/images/logo.webp" as="image" fetchpriority="high" type="image/webp">
+        <link rel="preload" href="/styles/common.css" as="style">
+    
+        <!-- Nur common.css importieren (non-blocking) -->
+        <link rel="stylesheet" href="/styles/common.css" type="text/css" media="print" onload="this.media='all'; this.onload=null;" onerror="this.remove();">
+        <link rel="stylesheet" href="/styles.css">
+        <noscript>
+            <link rel="stylesheet" href="/styles/common.css">
+        </noscript>
+    
+        <!-- Base Scripts deferred -->
+        <script src="/scripts/sw-register.js" defer></script>
+        
+        <!-- Optimierte Script-Ladestrategie -->
+        <script>
+          // Immediate functions for performance improvements
+          // Set cache headers via JS for this page
+          function setCacheHeaders() {
+            // Try to set Cache-Control header via service worker if available
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+              navigator.serviceWorker.controller.postMessage({
+                type: 'SET_CACHE_HEADERS',
+                url: window.location.pathname,
+                headers: {
+                  'Cache-Control': 'public, max-age=604800, stale-while-revalidate=86400'
+                }
+              });
+            }
+          }
+          
+          // Defer less important script loading
+          function loadDeferredScripts() {
+            // Load non-critical scripts
+            const nonCriticalScripts = [
+              { 
+                src: '/scripts/font-awesome-loader.js', 
+                defer: true,
+                onload: function() {
+                  // Ensure theme functionality is initialized when script loads
+                  if (window.LinnTheme && typeof window.LinnTheme.setupTheme === 'function') {
+                    window.LinnTheme.setupTheme();
+                    window.LinnTheme.loadFontAwesomeIcons();
+                  }
+                }
+              },
+              { src: '/scripts/asset-preloader.js', defer: true }
+            ];
+            
+            nonCriticalScripts.forEach(scriptData => {
+              const script = document.createElement('script');
+              script.src = scriptData.src;
+              if (scriptData.defer) script.defer = true;
+              if (scriptData.onload) script.onload = scriptData.onload;
+              document.head.appendChild(script);
+            });
+          }
+          
+          // Execute immediately
+          setCacheHeaders();
+          
+          // Load deferred scripts after critical content
+          if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            loadDeferredScripts();
+          } else {
+            document.addEventListener('DOMContentLoaded', loadDeferredScripts);
+          }
+        </script>
+        
+        <style>
+            /* Additional styling for the privacy policy */
+            .datenschutz-section {
+                margin-bottom: 2rem;
+            }
+            
+            .datenschutz-section h3 {
+                color: var(--primary-color);
+                margin-top: 1.5rem;
+                margin-bottom: 1rem;
+                font-size: 1.3rem;
+            }
+            
+            .datenschutz-section ul {
+                margin-left: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .datenschutz-section p {
+                margin-bottom: 1rem;
+                line-height: 1.6;
+            }
+            
+            .back-to-top {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background-color: var(--primary-color);
+                color: white;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                opacity: 0;
+                transition: opacity 0.3s;
+                z-index: 1000;
+            }
+            
+            .back-to-top.visible {
+                opacity: 1;
+            }
+            
+            .toc {
+                background-color: rgba(0,127,139,0.05);
+                padding: 1.5rem;
+                border-radius: 8px;
+                margin-bottom: 2rem;
+            }
+            
+            .toc h3 {
+                margin-top: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .toc ul {
+                margin-bottom: 0;
+            }
+            
+            .toc li {
+                margin-bottom: 0.5rem;
+            }
+        </style>
+    </head>
+    <body>
+    <header class="site-header">
+        <div class="nav-inner header-container">
+            <div class="logo">
+                <a href="/index.html" title="Zur Startseite - Linn Games Augmented Reality und KI-Lösungen">
+                    <img src="/static/images/logo.webp" alt="Linn Games Logo" width="150" height="150" fetchpriority="high">
+                </a>
+            </div>
+          
+            <nav class="nav-links main-nav" id="mainNav">
+                <ul>
+                    <li><a href="/index.html" aria-label="Startseite - Schere-Stein-Papier mit Augmented Reality">Start</a></li>
+                    <li><a href="/pages/Games.html" aria-label="Games - Interaktive Browserspiele und Gamification-Lösungen">Games</a></li>
+                    <li><a href="/pages/AI.html" aria-label="KI-Lösungen - Objekterkennung und maschinelles Lernen">AI</a></li>
+                    <li><a href="/pages/WebDevelopment.html" aria-label="Webentwicklung - Zukunftssichere Lösungen für Unternehmen">WebDevelopment</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" data-fa-icon="moon">
+                <i class="fas fa-moon" aria-hidden="true"></i>
+            </button>
+            <button class="menu-toggle" type="button" id="menu-toggle" aria-label="Navigation öffnen">
+                <span></span>
+            </button>
+        </div>
+        <div class="nav-mobile" id="nav-mobile">
+            <a href="/index.html">Start</a>
+            <a href="/pages/Games.html">Games</a>
+            <a href="/pages/AI.html">AI</a>
+            <a href="/pages/WebDevelopment.html">WebDevelopment</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section id="datenschutz" class="legal-section" fetchpriority="high">
+                <h2>Datenschutzerklärung</h2>
+                
+                <div class="toc">
+                    <h3>Inhaltsverzeichnis</h3>
+                    <ul>
+                        <li><a href="#verantwortliche">Verantwortliche Stelle</a></li>
+                        <li><a href="#daten">Arten der verarbeiteten Daten</a></li>
+                        <li><a href="#zweck">Zweck und Rechtsgrundlage</a></li>
+                        <li><a href="#aufbewahrung">Aufbewahrung und Löschung</a></li>
+                        <li><a href="#rechte">Rechte der Betroffenen</a></li>
+                        <li><a href="#sicherheit">Technische und organisatorische Maßnahmen</a></li>
+                        <li><a href="#cookies">Cookies und Plugins</a></li>
+                        <li><a href="#unity">Nutzung von Unity OAuth</a></li>
+                        <li><a href="#github">GitHub OAuth (zukünftige Option)</a></li>
+                    </ul>
+                </div>
+                
+                <div id="verantwortliche" class="datenschutz-section">
+                    <h3>Verantwortliche Stelle</h3>
+                    <p>
+                        Verantwortlicher im Sinne der Datenschutzgesetze (insbesondere DSGVO) für die Verarbeitung personenbezogener Daten auf der Website und im Spiel ist der Anbieter:
+                    </p>
+                    <p>
+                        Benedikt Linn<br>
+                        Erzbergerstraße 9a<br>
+                        68623 Lampertheim<br>
+                        E-Mail: <a href="mailto:info@linn.games">info@linn.games</a><br>
+                        (nachfolgend "wir" oder "uns" genannt)
+                    </p>
+                    <p>
+                        Bei Fragen zum Datenschutz können Sie sich jederzeit unter der angegebenen Adresse oder E-Mail an uns wenden.
+                    </p>
+                </div>
+                
+                <div id="daten" class="datenschutz-section">
+                    <h3>Arten der verarbeiteten Daten</h3>
+                    <p>
+                        Wir verarbeiten je nach Nutzung der Website und des Spiels unterschiedliche Kategorien personenbezogener Daten:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Registrierungs- und Kontodaten:</strong> Bei Registrierung eines Nutzerkontos erheben wir E-Mail-Adresse, einen gewählten Nutzernamen und ein Passwort (das Passwort wird ausschließlich verschlüsselt/als Hash gespeichert). Alternativ können Sie sich über Unity OAuth anmelden; in diesem Fall erhalten wir von Unity bestimmte Profildaten (z.B. Ihre Unity-ID und E-Mail-Adresse) zur Kontoerstellung. Hinweis: Künftig könnte auch eine Anmeldung über GitHub OAuth angeboten werden, wobei wir von GitHub entsprechende Basis-Profildaten (z.B. Benutzername, E-Mail) erhalten würden.
+                        </li>
+                        <li>
+                            <strong>Authentifizierungsdaten:</strong> Im Rahmen des Login-Vorgangs erfassen wir technische Authentifizierungsdaten (wie Tokens oder Session-IDs), um Ihre Identität während der Nutzung sicherzustellen.
+                        </li>
+                        <li>
+                            <strong>Spieldaten und Kommunikationsinhalte:</strong> Während des Spielbetriebs fallen Daten zur Nutzung an (z.B. Fortschritte, Spielstatistiken) sowie Inhalte der Kommunikation zwischen Spielern im Multiplayer (Chat-Nachrichten, In-Game-Nachrichten). Diese Inhalte werden verarbeitet, um die Kommunikation bereitzustellen. Eine dauerhafte Speicherung von Chat-Verläufen erfolgt nur temporär oder sofern erforderlich (z.B. zur Untersuchung von Missbrauchsfällen).
+                        </li>
+                        <li>
+                            <strong>Nutzungs- und Verbindungsdaten:</strong> Bei Besuch der Website oder Nutzung des Spiels erfassen unsere Server automatisch technische Informationen wie Ihre IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene URL bzw. Spielserver-Anfrage sowie ggf. Geräteinformationen (Browsertyp, Betriebssystem oder Spiel-Client-Version). Diese Protokolldaten (Logs) sind erforderlich, um den Dienst bereitzustellen und die Sicherheit unserer Systeme zu gewährleisten.
+                        </li>
+                        <li>
+                            <strong>Kontaktdaten und Kommunikationsinhalte:</strong> Wenn Sie über das Kontaktformular auf der Website oder per E-Mail mit uns in Verbindung treten, verarbeiten wir Ihre E-Mail-Adresse, Ihren Namen (falls angegeben) sowie den Inhalt Ihrer Anfrage.
+                        </li>
+                        <li>
+                            <strong>Kauf- und Zahlungsinformationen (zukünftig):</strong> Im Falle eines zukünftigen digitalen Verkaufs (z.B. Erwerb von Spielen oder In-Game-Inhalten) erheben wir die für die Abwicklung notwendigen Daten. Dies kann Ihren Namen, Ihre Kontaktdaten (E-Mail-Adresse, ggf. Rechnungsanschrift) sowie Informationen zur Bestellung umfassen. Zahlungsdaten selbst (z.B. Kreditkartennummern) werden nicht von uns gespeichert, sondern direkt über die eingesetzten Zahlungsdienstleister verarbeitet; wir erhalten lediglich Informationen zur erfolgten Zahlung (z.B. Bestätigung, Transaktions-ID) und speichern die Kaufhistorie zu Ihrem Konto.
+                        </li>
+                    </ul>
+                </div>
+                
+                <div id="zweck" class="datenschutz-section">
+                    <h3>Zweck und Rechtsgrundlage der Verarbeitung</h3>
+                    <p>
+                        Wir verarbeiten die genannten personenbezogenen Daten nur zu den nachfolgend erläuterten Zwecken und auf Basis der einschlägigen Rechtsgrundlagen der DSGVO:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Bereitstellung von Website und Spiel (Vertragserfüllung):</strong> Die Hauptzwecke der Datenverarbeitung sind die Registrierung und Verwaltung von Nutzerkonten, die Bereitstellung der Spiel-Funktionen (einschließlich Multiplayer und Kommunikation zwischen Spielern) sowie die Ausführung von Käufen digitaler Inhalte. Die Verarbeitung Ihrer Registrierungs-, Konto- und Spieldaten erfolgt zur Erfüllung des Nutzungsvertrags, den Sie mit uns durch die Registrierung und Nutzung des Spiels/der Website schließen (Art. 6 Abs. 1 lit. b DSGVO). Dies umfasst auch die Nutzung von Authentifizierungsdiensten (Unity OAuth, ggf. künftig GitHub OAuth) zur Anmeldung, da diese für den Zugang zum Spiel erforderlich sind.
+                        </li>
+                        <li>
+                            <strong>Kommunikation und Support:</strong> Wenn Sie uns über das Kontaktformular oder per E-Mail Anfragen senden, verwenden wir Ihre Angaben, um Ihr Anliegen zu bearbeiten und zu beantworten. Die Verarbeitung erfolgt je nach Kontext zur Vertragserfüllung oder -anbahnung (Art. 6 Abs. 1 lit. b DSGVO) oder auf Grundlage unseres berechtigten Interesses an der effektiven Bearbeitung von Nutzeranfragen (Art. 6 Abs. 1 lit. f DSGVO). Das berechtigte Interesse besteht darin, einen zuverlässigen Support und Kundendienst zu bieten.
+                        </li>
+                        <li>
+                            <strong>Multiplayer-Kommunikation und Community-Moderation:</strong> Die Inhalte, die im Spiel zwischen Spielern ausgetauscht werden (z.B. Chat-Nachrichten), verarbeiten wir zum Zweck der Übermittlung an die vorgesehenen Empfänger (andere Spieler) und – soweit notwendig – zur Überwachung auf regelwidriges Verhalten (z.B. Missbrauch, Beleidigungen, unzulässige Inhalte) gemäß den Nutzungsregeln. Rechtsgrundlage hierfür ist unser berechtigtes Interesse (Art. 6 Abs. 1 lit. f DSGVO) an der Aufrechterhaltung eines sicheren, fairen Spielumfelds sowie die Vertragserfüllung, da die Kommunikationsfunktion Teil des angebotenen Spiels ist.
+                        </li>
+                        <li>
+                            <strong>Sicherheit und technische Protokollierung:</strong> Die automatischen Protokolldaten (z.B. IP-Adressen, Logfiles) verarbeiten wir zur Sicherstellung des technischen Betriebs und der Sicherheit unserer Systeme (Abwehr von Angriffsversuchen, Fehlerdiagnose). Dies erfolgt auf Basis unserer berechtigten Interessen (Art. 6 Abs. 1 lit. f DSGVO), nämlich dem Schutz unseres Angebots sowie der Nutzerdaten vor Missbrauch, sowie ggf. zur Erfüllung rechtlicher Pflichten in Bezug auf IT-Sicherheit.
+                        </li>
+                        <li>
+                            <strong>Zukünftige digitale Käufe und Abwicklung von Bestellungen:</strong> Sofern Sie in Zukunft kostenpflichtige digitale Inhalte oder Spiele erwerben, werden die hierfür erhobenen personenbezogenen Daten (Konto- und Bestelldaten) zum Zweck der Vertragsdurchführung genutzt (Art. 6 Abs. 1 lit. b DSGVO). Dies umfasst die Bestellabwicklung, Bereitstellung der gekauften digitalen Güter sowie die Buchhaltung. Gegebenenfalls sind wir gesetzlich verpflichtet, bestimmte Transaktionsdaten für steuerliche und handelsrechtliche Zwecke aufzubewahren (Art. 6 Abs. 1 lit. c DSGVO).
+                        </li>
+                        <li>
+                            <strong>Keine Werbung oder Profiling ohne Einwilligung:</strong> Wir verwenden Ihre Daten nicht zu Werbezwecken und erstellen keine Nutzerprofile zu Marketingzwecken ohne Ihre ausdrückliche Einwilligung. Insbesondere kommen keine Tracking-Cookies oder Analysedienste von Drittanbietern zum Einsatz, die einer Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO bedürften.
+                        </li>
+                    </ul>
+                    <p>
+                        Sollten wir beabsichtigen, Ihre Daten für andere als die oben genannten Zwecke zu verwenden, werden wir hierfür zuvor Ihre Einwilligung einholen oder Sie entsprechend informieren und, sofern erforderlich, eine neue Rechtsgrundlage benennen.
+                    </p>
+                </div>
+                
+                <div id="aufbewahrung" class="datenschutz-section">
+                    <h3>Aufbewahrung und Löschung</h3>
+                    <p>
+                        Wir verarbeiten und speichern personenbezogene Daten nur solange, wie es zur Erreichung der jeweiligen Zwecke erforderlich ist und löschen bzw. anonymisieren sie anschließend unter Beachtung gesetzlicher Aufbewahrungsfristen. Dies bedeutet im Einzelnen:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Account- und Profildaten:</strong> Ihre Registrierungsdaten und Ihr Nutzerkonto bleiben gespeichert, solange Ihr Konto aktiv ist. Wenn Sie Ihr Konto löschen (lassen) oder über einen längeren Zeitraum inaktiv sind, entfernen wir Ihre personenbezogenen Account-Daten, sofern keine Aufbewahrungspflichten entgegenstehen. In der Regel wird bei einer Löschanfrage Ihr Konto umgehend deaktiviert und die personenbezogenen Daten werden innerhalb von 30 Tagen vollständig gelöscht. Im Falle längerer Inaktivität (über 24 Monate) behalten wir uns vor, das Konto nach vorheriger Ankündigung zu löschen, um nicht mehr benötigte Daten zu bereinigen.
+                        </li>
+                        <li>
+                            <strong>Kommunikationsinhalte im Spiel:</strong> Chat-Nachrichten und ähnliche Kommunikation im Multiplayer werden nicht dauerhaft gespeichert. Sie werden nur flüchtig verarbeitet, um sie an andere Spieler zu übertragen, und nach kurzer Zeit aus dem Arbeitsspeicher oder den temporären Logs gelöscht. Ausnahmen gelten, falls bestimmte Inhalte im Rahmen von Missbrauchsmeldungen oder Regelverstößen zu Beweiszwecken benötigt werden; in einem solchen Fall können betroffene Chat-Protokolle bis zur Klärung des Vorfalls aufbewahrt und anschließend gelöscht oder anonymisiert werden.
+                        </li>
+                        <li>
+                            <strong>Kontaktanfragen:</strong> Nachrichten, die uns über das Kontaktformular oder per E-Mail erreichen, speichern wir für die Bearbeitung der Anfrage und eventuell anschließende Korrespondenz. Nachdem Ihr Anliegen vollständig geklärt ist, archivieren wir diese Kommunikation höchstens für einen begrenzten Zeitraum (in der Regel bis zu 24 Monate), falls Nachfragen auftreten. Erforderlichenfalls werden Geschäftsbriefe entsprechend den gesetzlichen Vorgaben länger aufbewahrt (z.B. handelsrechtliche Aufbewahrungspflicht von 6 Jahren für geschäftliche Korrespondenz gemäß § 257 HGB).
+                        </li>
+                        <li>
+                            <strong>Nutzungs- und Log-Daten:</strong> Server-Logs, die IP-Adressen und andere technische Verbindungsdaten enthalten, werden aus Sicherheitsgründen und zur Fehleranalyse vorübergehend gespeichert. Eine routinemäßige Löschung oder Anonymisierung dieser Logfiles erfolgt spätestens nach 90 Tagen, sofern kein sicherheitsrelevanter Vorfall die weitere Aufbewahrung erforderlich macht. Im Falle von sicherheitsrelevanten Ereignissen (z.B. Angriffen) können relevante Log-Auszüge bis zur endgültigen Klärung und Behebung des Vorfalls aufbewahrt werden.
+                        </li>
+                        <li>
+                            <strong>Kauf- und Bestelldaten (zukünftig):</strong> Bei Kaufvorgängen von digitalen Produkten speichern wir Bestell- und Rechnungsinformationen gemäß den steuer- und handelsrechtlichen Aufbewahrungsfristen. Dies bedeutet in der Regel eine Aufbewahrung von 10 Jahren ab dem Ende des Kalenderjahres, in dem der Kauf erfolgte (gemäß § 147 AO und § 257 HGB), bevor eine Löschung erfolgt. Während dieser Zeit werden die Daten jedoch für andere Zwecke gesperrt und nur zur Erfüllung der Aufbewahrungspflicht genutzt.
+                        </li>
+                    </ul>
+                    <p>
+                        Nach Ablauf der genannten Fristen bzw. Wegfall des jeweiligen Verarbeitungszwecks werden die entsprechenden Daten routinemäßig gelöscht, sofern wir nicht zur weiteren Aufbewahrung verpflichtet sind oder Sie in eine darüberhinausgehende Speicherung eingewilligt haben.
+                    </p>
+                </div>
+                
+                <div id="rechte" class="datenschutz-section">
+                    <h3>Rechte der Betroffenen</h3>
+                    <p>
+                        Als von der Datenverarbeitung betroffene Person stehen Ihnen gemäß DSGVO verschiedene Rechte zu, die Sie uns gegenüber geltend machen können:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Recht auf Auskunft (Art. 15 DSGVO):</strong> Sie haben das Recht, eine Bestätigung darüber zu verlangen, ob wir personenbezogene Daten von Ihnen verarbeiten. Wenn dies der Fall ist, können Sie Auskunft über diese Daten sowie weitere Informationen über die Verarbeitung (Zwecke, Kategorien, Empfänger, geplante Speicherdauer etc.) und eine Kopie der Daten erhalten.
+                        </li>
+                        <li>
+                            <strong>Recht auf Berichtigung (Art. 16 DSGVO):</strong> Sie können die Berichtigung Ihrer personenbezogenen Daten verlangen, sofern diese unrichtig oder unvollständig sind. Wir werden entsprechende Korrekturen unverzüglich vornehmen.
+                        </li>
+                        <li>
+                            <strong>Recht auf Löschung (Art. 17 DSGVO):</strong> Sie sind berechtigt, die Löschung Ihrer personenbezogenen Daten zu verlangen, wenn die gesetzlichen Voraussetzungen dafür vorliegen. Dies ist insbesondere der Fall, wenn die Daten für die Zwecke, für die sie erhoben wurden, nicht mehr notwendig sind, Sie eine erteilte Einwilligung widerrufen und es an einer anderweitigen Rechtsgrundlage fehlt, oder Sie aus persönlichen Gründen der Datenverarbeitung widersprochen haben und keine vorrangigen berechtigten Gründe entgegenstehen. Auch im Falle einer unrechtmäßigen Verarbeitung oder bei Bestehen einer rechtlichen Löschpflicht werden wir Ihre Daten löschen. Bitte beachten Sie, dass bestimmte Daten nicht sofort gelöscht werden können, wenn gesetzliche Aufbewahrungspflichten bestehen – in solchen Fällen erfolgt eine Sperrung der Daten bis zum Fristablauf.
+                        </li>
+                        <li>
+                            <strong>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO):</strong> Sie haben das Recht, die Einschränkung der Verarbeitung Ihrer Daten zu verlangen, solange die Richtigkeit der Daten von Ihnen bestritten wird, eine Löschung wegen unzulässiger Verarbeitung nicht gewünscht ist und stattdessen eine eingeschränkte Nutzung erfolgen soll, oder wenn wir die Daten zwar nicht mehr benötigen, Sie diese jedoch zur Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen benötigen. Auch wenn Sie einen Widerspruch nach Art. 21 DSGVO eingelegt haben, können Sie für die Dauer der Prüfung, ob unsere berechtigten Gründe gegenüber Ihren überwiegen, die Einschränkung der Verarbeitung verlangen.
+                        </li>
+                        <li>
+                            <strong>Recht auf Datenübertragbarkeit (Art. 20 DSGVO):</strong> Sie sind berechtigt, die personenbezogenen Daten, die Sie uns bereitgestellt haben, in einem gängigen, maschinenlesbaren Format (z.B. CSV) zu erhalten, und – soweit technisch machbar – zu erwirken, dass wir diese Daten auf Ihren Wunsch direkt an einen anderen Verantwortlichen übertragen. Dieses Recht gilt, sofern die Verarbeitung auf Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) oder einem Vertrag (Art. 6 Abs. 1 lit. b DSGVO) beruht und mittels automatisierter Verfahren erfolgt.
+                        </li>
+                        <li>
+                            <strong>Recht auf Widerspruch (Art. 21 DSGVO):</strong> Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit der Verarbeitung Ihrer personenbezogenen Daten zu widersprechen, soweit wir diese auf Grundlage eines berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO) verarbeiten. Legen Sie Widerspruch ein, werden wir Ihre Daten nicht weiterverarbeiten, es sei denn, wir können zwingende schutzwürdige Gründe nachweisen, die Ihre Interessen, Rechte und Freiheiten überwiegen, oder die Verarbeitung dient der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen. Gegen Datenverarbeitung zum Zwecke der Direktwerbung (die wir derzeit nicht betreiben) können Sie jederzeit ohne Angabe von Gründen Widerspruch einlegen; wir würden die Verarbeitung dann umgehend einstellen.
+                        </li>
+                        <li>
+                            <strong>Recht auf Widerruf einer Einwilligung (Art. 7 Abs. 3 DSGVO):</strong> Wenn Sie uns eine Einwilligung zur Verarbeitung personenbezogener Daten erteilt haben (z.B. optional für zukünftige Newsletter), können Sie diese Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen. Der Widerruf berührt nicht die Rechtmäßigkeit der vor dem Widerruf erfolgten Verarbeitung.
+                        </li>
+                        <li>
+                            <strong>Recht auf Beschwerde bei einer Aufsichtsbehörde (Art. 77 DSGVO):</strong> Wenn Sie der Ansicht sind, dass die Verarbeitung Ihrer personenbezogenen Daten gegen die DSGVO oder andere Datenschutzgesetze verstößt, haben Sie das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren. Sie können dies bei der für uns zuständigen Behörde oder einer Aufsichtsbehörde in dem Mitgliedstaat Ihres Aufenthaltsorts, Ihres Arbeitsplatzes oder des Orts des mutmaßlichen Verstoßes tun.
+                        </li>
+                    </ul>
+                    <p>
+                        Um eines der genannten Rechte auszuüben, können Sie sich jederzeit formlos an uns wenden (z.B. per E-Mail an die oben angegebene Kontaktadresse). Bitte geben Sie dabei ausreichend Informationen an, die uns eine eindeutige Identifizierung Ihrer Person ermöglichen (z.B. Angabe der registrierten E-Mail-Adresse). Wir werden Ihr Anliegen so schnell wie möglich, spätestens innerhalb der gesetzlich vorgegebenen Frist von 1 Monat, bearbeiten.
+                    </p>
+                </div>
+                
+                <div id="sicherheit" class="datenschutz-section">
+                    <h3>Technische und organisatorische Maßnahmen (Sicherheit)</h3>
+                    <p>
+                        Wir nehmen den Schutz Ihrer personenbezogenen Daten ernst und treffen umfassende technische und organisatorische Maßnahmen (TOM), um ein angemessenes Schutzniveau zu gewährleisten. Dazu gehören insbesondere:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Verschlüsselung:</strong> Die Übertragung von Daten zwischen Ihrem Endgerät und unseren Servern erfolgt stets verschlüsselt über das SSL/TLS-Protokoll. Dadurch werden Ihre Eingaben (z.B. Login-Daten, Kontaktanfragen) vor dem unbefugten Mitlesen durch Dritte während der Übertragung geschützt.
+                        </li>
+                        <li>
+                            <strong>Zugriffskontrolle und Authentifizierung:</strong> Unsere Server (gehostet auf einer eigenen Synology-Umgebung) sind durch Firewalls und Zugangsbeschränkungen abgesichert. Nur autorisierte Personen haben Zugang zu personenbezogenen Daten, und dies auch nur in dem Umfang, der für die jeweiligen Zwecke notwendig ist. Die Verwaltungskonten sind durch starke Passwörter und ggf. Zwei-Faktor-Authentifizierung geschützt.
+                        </li>
+                        <li>
+                            <strong>Datenminimierung und Pseudonymisierung:</strong> Wir erheben nur solche personenbezogenen Daten, die für die genannten Zwecke erforderlich sind ("Datenminimierung"). Soweit möglich, verwenden wir pseudonyme Identifikationsmerkmale (z.B. eine Nutzer-ID anstelle eines Klarnamens) und speichern Passwörter ausschließlich in gehashter Form. Ein im Klartext gespeichertes Passwort wird weder von uns angefordert noch gespeichert.
+                        </li>
+                        <li>
+                            <strong>Integrität und Speicherungs-Sicherheit:</strong> Personenbezogene Daten werden auf unseren Systemen sicher gespeichert. Wir nutzen aktuelle Sicherheitstechnologien und halten unsere Systeme (Software und Hardware) auf dem aktuellen Stand, um bekannte Sicherheitslücken zu schließen. Regelmäßige Backups werden durchgeführt und ebenfalls sicher verwahrt, um Datenverlust vorzubeugen.
+                        </li>
+                        <li>
+                            <strong>Überwachung und Aktualisierung:</strong> Wir überprüfen regelmäßig unsere Sicherheitsmaßnahmen und passen sie bei Bedarf an den aktuellen Stand der Technik sowie an neue rechtliche Anforderungen an. Sicherheitsrelevante Ereignisse (z.B. unbefugte Zugriffsversuche) werden protokolliert und analysiert, um schnell reagieren zu können.
+                        </li>
+                        <li>
+                            <strong>Vertraulichkeit:</strong> Unsere Mitarbeiter oder Erfüllungsgehilfen, die Zugang zu personenbezogenen Daten haben, sind zur Vertraulichkeit verpflichtet und wurden in den relevanten Datenschutzbestimmungen geschult.
+                        </li>
+                    </ul>
+                    <p>
+                        Bitte beachten Sie, dass trotz aller angemessenen Vorkehrungen kein IT-System absolute Sicherheit bieten kann. Wir sichern jedoch zu, dass wir unsere Sicherheitsstandards fortlaufend verbessern, um Ihre Daten bestmöglich zu schützen.
+                    </p>
+                </div>
+                
+                <div id="cookies" class="datenschutz-section">
+                    <h3>Cookies und Plugins</h3>
+                    <p>
+                        Unsere Website verwendet Cookies ausschließlich in technisch notwendigem Umfang. Dies bedeutet:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Technisch erforderliche Cookies:</strong> Wenn Sie sich auf der Website einloggen, setzen wir ein Session-Cookie, um den Login-Zustand aufrecht zu erhalten und Sie während Ihres Besuchs wiederzuerkennen. Dieses Cookie enthält eine zufällige Sitzungs-ID (Session-ID), aber keine personenbezogenen Informationen wie Ihren Namen oder Ihre E-Mail. Es wird automatisch gelöscht, sobald Sie sich ausloggen oder die Session abläuft. Solche Cookies sind notwendig, um die grundlegenden Funktionen der Website (z.B. geschützter Benutzerbereich) bereitzustellen und stützen sich auf § 25 Abs. 2 TTDSG, weshalb keine ausdrückliche Einwilligung erforderlich ist.
+                        </li>
+                        <li>
+                            <strong>Keine Tracking- oder Werbe-Cookies:</strong> Wir verwenden keine Cookies zu Analyse-, Tracking- oder Werbezwecken. Insbesondere setzen wir keine Dienste von Drittanbietern ein, die Cookies für Marketingzwecke auf Ihrem Gerät speichern (wie z.B. Google Analytics, Facebook Pixel o.ä.). Sie können unsere Website daher nutzen, ohne dass persistente Drittanbieter-Cookies auf Ihrem Endgerät gespeichert werden.
+                        </li>
+                    </ul>
+                    <p>
+                        Sie haben die Möglichkeit, Cookies über die Einstellungen Ihres Browsers zu steuern und bereits gesetzte Cookies zu löschen. Bitte beachten Sie jedoch, dass die Funktionalität der Website eingeschränkt sein kann, wenn Sie technisch notwendige Cookies blockieren.
+                    </p>
+                    <p>
+                        Plugins und externe Inhalte: Auf unserer Website kommen grundsätzlich keine externen Plug-ins oder aktive Inhalte von Drittanbietern zum Einsatz, die automatisiert Daten an Dritte übertragen würden (wie z.B. Social Media Plugins). Wir verzichten bewusst auf die Einbindung externer Werbung oder Tracking-Skripte. Die einzige Ausnahme bildet der OAuth-Login über externe Anbieter (Unity bzw. GitHub), der jedoch nur auf Ihren eigenen Klick hin aktiviert wird (siehe nächster Abschnitt). Im Rahmen dieses Logins werden Sie auf die Seite des jeweiligen Anbieters weitergeleitet; eine Datenerhebung durch Drittanbieter auf unserer Website ohne Ihr Zutun findet nicht statt.
+                    </p>
+                </div>
+                
+                <div id="unity" class="datenschutz-section">
+                    <h3>Nutzung von Unity OAuth (Unity-Login)</h3>
+                    <p>
+                        Wir bieten die Möglichkeit, sich mit einem bestehenden Unity-Account (Unity ID) bei unserem Spiel/auf der Website anzumelden. Dies geschieht über den Dienst Unity OAuth, bereitgestellt von Unity Technologies (Unity Technologies, 30 3rd Street, San Francisco, CA 94103, USA). Wenn Sie diese Login-Methode wählen, werden Sie auf die Login-Seite von Unity weitergeleitet. Dort können Sie sich mit Ihren Unity-Zugangsdaten authentifizieren. Nach erfolgreicher Anmeldung erhalten wir von Unity bestimmte Daten, um Ihr Nutzerkonto bei uns anzulegen bzw. anzumelden.
+                    </p>
+                    <p>
+                        <strong>Welche Daten werden ausgetauscht?</strong> Im Rahmen von Unity OAuth übermittelt Unity an uns typischerweise folgende Informationen: Ihre eindeutige Unity-Benutzerkennung (User ID) und die mit Ihrem Unity-Konto verknüpfte E-Mail-Adresse. Gegebenenfalls werden auch Ihr Anzeigename oder Profilname und ein Token zur Bestätigung der Anmeldung übertragen. Wir nutzen diese Daten ausschließlich, um ein entsprechendes Spielerkonto in unserem System zu erstellen bzw. zu verknüpfen und Ihnen den Zugang zum Spiel zu ermöglichen. Ohne diese Daten können wir Sie nicht als Unity-Nutzer identifizieren und die Anmeldung nicht durchführen.
+                    </p>
+                    <p>
+                        <strong>Rechtsgrundlage:</strong> Die Einbindung von Unity OAuth erfolgt auf Grundlage unseres berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO) sowie zur Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO). Unser berechtigtes Interesse liegt darin, unseren Spielern eine bequeme und sichere Anmeldemöglichkeit zu bieten, ohne ein zusätzliches Passwort verwalten zu müssen. Da die Nutzung von Unity OAuth freiwillig ist (Sie können alternativ unser eigenes Auth-System nutzen, falls angeboten), willigen Sie durch die Wahl dieser Login-Methode konkludent ein, dass zur Authentifizierung eine Verbindung zu Unity hergestellt wird.
+                    </p>
+                    <p>
+                        <strong>Datenschutz bei Unity:</strong> Die Authentifizierung über Unity unterliegt den Datenschutzbestimmungen von Unity. Die Verarbeitung Ihrer Daten im Rahmen des Unity-Logins erfolgt zunächst durch Unity als eigenständig verantwortliche Stelle. Auf die Erhebung und Verarbeitung Ihrer Login-Daten durch Unity haben wir keinen Einfluss. Weitere Informationen dazu finden Sie in der Unity Datenschutzerklärung unter folgendem Link: <a href="https://unity.com/legal/privacy-policy" target="_blank">Unity Privacy Policy</a>. Unity Technologies verarbeitet personenbezogene Daten unter Beachtung der DSGVO und setzt bei Datenübermittlungen aus der EU standardmäßige Schutzmechanismen (z.B. EU-Standardvertragsklauseln) ein, um ein angemessenes Datenschutzniveau sicherzustellen.
+                    </p>
+                    <p>
+                        Beim Login-Vorgang erhalten wir von Unity keine Zugangsdaten wie Passwörter, sondern nur die oben genannten Profilinformationen. Wir speichern diese in unserem System, solange Ihr Nutzerkonto besteht (siehe Aufbewahrung). Wenn Sie Ihr Unity-Konto löschen oder die Verknüpfung aufheben möchten, können Sie dies über die Unity-Kontoeinstellungen tun; dies hat zur Folge, dass ein Login bei uns über Unity nicht mehr möglich ist. Sie können sich in diesem Fall an uns wenden, um ggf. ein alternatives Login für Ihr Spielerkonto zu vereinbaren.
+                    </p>
+                    
+                    <h4>Unity Player Accounts - Wichtige Datenschutzhinweise</h4>
+                    <p>
+                        Wenn Sie Unity Player Accounts für die Anmeldung verwenden, haben Sie zusätzlich folgende Rechte und Möglichkeiten:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Datenlöschung:</strong> Sie können Ihren Unity Player Account vollständig löschen unter: <a href="https://player-account.unity.com/delete-account" target="_blank">https://player-account.unity.com/delete-account</a>
+                        </li>
+                        <li>
+                            <strong>Auskunftsrecht und andere Datenschutzanfragen:</strong> Für Anfragen zur Offenlegung Ihrer von Unity gespeicherten Daten oder andere datenschutzbezogene Anliegen zu Unity Player Accounts wenden Sie sich bitte direkt an: <a href="mailto:unity-player-login-privacy@unity3d.com">unity-player-login-privacy@unity3d.com</a>
+                        </li>
+                    </ul>
+                    <p>
+                        <strong>Einhaltung der Unity-Nutzungsbedingungen:</strong> Durch die Verwendung von Unity Player Accounts für die Anmeldung in unserer Anwendung, stimmen Sie auch den <a href="https://unity.com/legal/terms-of-service" target="_blank">Unity-Nutzungsbedingungen</a> zu. Wir verpflichten uns zur Einhaltung dieser Nutzungsbedingungen und verwenden den Unity Player Account-Dienst ausschließlich in Übereinstimmung mit den Vorgaben von Unity Technologies.
+                    </p>
+                </div>
+                
+                <div id="github" class="datenschutz-section">
+                    <h3>GitHub OAuth (zukünftige Login-Option)</h3>
+                    <p>
+                        (Dieser Abschnitt ist relevant, falls wir in Zukunft eine Anmeldung über GitHub anbieten. Derzeit ist GitHub OAuth noch nicht aktiv.)
+                    </p>
+                    <p>
+                        Es ist geplant, künftig eine Login-Option über GitHub OAuth bereitzustellen. Dies würde es Nutzern ermöglichen, sich mit ihren GitHub-Zugangsdaten bei unserem Dienst anzumelden. Die Funktionsweise wäre ähnlich wie bei Unity OAuth: Nach Auswahl der GitHub-Login-Option würden Sie zu GitHub weitergeleitet, dort die Anmeldung durchführen, und GitHub würde im Anschluss bestimmte Informationen an uns übermitteln.
+                    </p>
+                    <p>
+                        <strong>Mögliche übermittelte Daten:</strong> Von GitHub würden wir voraussichtlich Ihren GitHub-Benutzernamen, die mit Ihrem Konto verknüpfte E-Mail-Adresse und eine eindeutige Nutzer-ID erhalten. Diese Daten würden wir nutzen, um ein Konto bei uns zu erstellen bzw. zu verknüpfen. Auch hier erhalten wir keine Passwörter oder vollen Zugriffsrechte auf Ihr GitHub-Konto.
+                    </p>
+                    <p>
+                        <strong>Datenschutz bei GitHub:</strong> Die Nutzung von GitHub OAuth unterläge den Datenschutzrichtlinien von GitHub. GitHub Inc. (GitHub, Teil von Microsoft, ansässig in den USA) wäre für die Erst-Authentifizierung datenschutzrechtlich verantwortlich. Weitere Informationen zur Verarbeitung Ihrer Daten durch GitHub finden Sie in der GitHub-Datenschutzerklärung: <a href="https://docs.github.com/de/site-policy/privacy-policies/github-privacy-statement" target="_blank">GitHub Datenschutzerklärung</a>. GitHub sichert ebenfalls zu, Daten im Einklang mit der DSGVO zu verarbeiten und entsprechende Schutzmaßnahmen bei Datentransfers einzusetzen.
+                    </p>
+                    <p>
+                        Wir werden diesen Datenschutzhinweis aktualisieren, sobald die GitHub-Login-Funktion eingeführt wird, und Sie gegebenenfalls erneut um Zustimmung bitten, falls dies erforderlich ist. Die Angabe Ihrer GitHub-Daten erfolgt stets freiwillig und nur auf Ihren Wunsch, diese Login-Methode zu nutzen.
+                    </p>
+                </div>
+                
+                <p class="last-update">
+                    <strong>Stand dieser Datenschutzerklärung:</strong> April 2025. Wir behalten uns vor, diese Datenschutzerklärung bei Änderungen unserer Datenverarbeitung oder rechtlichen Anforderungen zu aktualisieren. Wesentliche Änderungen werden wir Ihnen angemessen mitteilen. Die jeweils aktuelle Fassung ist auf der Website abrufbar.
+                </p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-inner footer-container">
+            <div class="footer-column">
+                <h3>About Linn Games</h3>
+                <p>A modern game portal featuring exciting browser-based 3D games with impressive graphics and engaging gameplay.</p>
+                <div class="social-links">
+                    <a href="https://github.com/nileneb" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://discord.gg/cY2nQVW4MZ" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+                <!-- SSL Trust Seal with lazy loading -->
+                <div class="ssl-seal">
+                    <img src="/static/images/positivessl_trust_seal_md_167x42.png" alt="SSL-Sicherheitszertifikat - Gesicherte Verbindung" width="167" height="42" loading="lazy" fetchpriority="low">
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="/index.html">Startseite - AR Spiele & KI</a></li>
+                    <li><a href="/pages/Games.html">Interaktive Browserspiele</a></li>
+                    <li><a href="/pages/AI.html">KI & Objekterkennung</a></li>
+                    <li><a href="/pages/WebDevelopment.html">Professionelle Webentwicklung</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/pages/Impressum.html">Impressum</a></li>
+                    <li><a href="/dsgvo.html">Datenschutz</a></li>
+                    <li><a href="/AGB.html">AGB</a></li>
+                    <li><a href="https://discord.gg/cY2nQVW4MZ">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li>
+                        <a href="mailto:info@linn.games">
+                            <i class="fas fa-envelope"></i> info@linn.games
+                        </a>
+                    </li>
+                    <li><i class="fas fa-map-marker-alt"></i> 68623, Lampertheim</li>
+                    <li><i class="fas fa-phone"></i> On request</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 www.linn.games. All rights reserved.
+        </div>
+    </footer>
+    
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop" aria-label="Zurück nach oben">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+    
+    <!-- Script for Back to Top Button -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backToTopButton = document.getElementById('backToTop');
+            
+            // Show button when user scrolls down
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+            
+            // Smooth scroll to top when button is clicked
+            backToTopButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+    <script>
+        // Mobile nav toggler
+        (function(){
+            const toggle = document.getElementById('menu-toggle');
+            const mobileNav = document.getElementById('nav-mobile');
+            if (!toggle || !mobileNav) return;
+            toggle.addEventListener('click', () => {
+                toggle.classList.toggle('active');
+                mobileNav.classList.toggle('open');
+            });
+            mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+                toggle.classList.remove('active');
+                mobileNav.classList.remove('open');
+            }));
+        })();
+    </script>
+</body>
+</html>

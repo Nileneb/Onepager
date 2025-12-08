@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Linn Games - Allgemeine Geschäftsbedingungen (AGB)">
+        
+        <!-- Security Headers -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' blob: https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self'; frame-src 'self'; object-src 'none'; worker-src 'self'; img-src 'self' data:;">
+        <meta http-equiv="X-Content-Type-Options" content="nosniff">
+        
+        <!-- PWA Support -->
+        <meta name="theme-color" content="#007f8b">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        
+        <title>Allgemeine Geschäftsbedingungen - Linn Games</title>
+        
+        <!-- Favicon -->
+        <link rel="icon" href="/static/images/Favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="/static/images/Favicon.ico" type="image/x-icon">
+        
+        <!-- Critical CSS - Load with high priority -->
+        <link rel="preload" href="/styles/critical.css" as="style">
+        <link rel="stylesheet" href="/styles/critical.css">
+        
+        <!-- High-priority preloads -->
+        <link rel="preload" href="/static/images/logo.webp" as="image" fetchpriority="high" type="image/webp">
+        <link rel="preload" href="/styles/common.css" as="style">
+    
+        <!-- Nur common.css importieren (non-blocking) -->
+        <link rel="stylesheet" href="/styles/common.css" type="text/css" media="print" onload="this.media='all'; this.onload=null;" onerror="this.remove();">
+        <!-- Fallback / Main site styles -->
+        <link rel="stylesheet" href="/styles.css">
+        <noscript>
+            <link rel="stylesheet" href="/styles/common.css">
+        </noscript>
+    
+        <!-- Base Scripts deferred -->
+        <script src="/scripts/sw-register.js" defer></script>
+        
+        <!-- Optimierte Script-Ladestrategie -->
+        <script>
+          // Immediate functions for performance improvements
+          // Set cache headers via JS for this page
+          function setCacheHeaders() {
+            // Try to set Cache-Control header via service worker if available
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+              navigator.serviceWorker.controller.postMessage({
+                type: 'SET_CACHE_HEADERS',
+                url: window.location.pathname,
+                headers: {
+                  'Cache-Control': 'public, max-age=604800, stale-while-revalidate=86400'
+                }
+              });
+            }
+          }
+          
+          // Defer less important script loading
+          function loadDeferredScripts() {
+            // Load non-critical scripts
+            const nonCriticalScripts = [
+              { 
+                src: '/scripts/font-awesome-loader.js', 
+                defer: true,
+                onload: function() {
+                  // Ensure theme functionality is initialized when script loads
+                  if (window.LinnTheme && typeof window.LinnTheme.setupTheme === 'function') {
+                    window.LinnTheme.setupTheme();
+                    window.LinnTheme.loadFontAwesomeIcons();
+                  }
+                }
+              },
+              { src: '/scripts/asset-preloader.js', defer: true }
+            ];
+            
+            nonCriticalScripts.forEach(scriptData => {
+              const script = document.createElement('script');
+              script.src = scriptData.src;
+              if (scriptData.defer) script.defer = true;
+              if (scriptData.onload) script.onload = scriptData.onload;
+              document.head.appendChild(script);
+            });
+          }
+          
+          // Execute immediately
+          setCacheHeaders();
+          
+          // Load deferred scripts after critical content
+          if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            loadDeferredScripts();
+          } else {
+            document.addEventListener('DOMContentLoaded', loadDeferredScripts);
+          }
+        </script>
+        
+        <style>
+            /* Additional styling for the AGB page */
+            .agb-section {
+                margin-bottom: 2rem;
+            }
+            
+            .agb-section h3 {
+                color: var(--primary-color);
+                margin-top: 1.5rem;
+                margin-bottom: 1rem;
+                font-size: 1.3rem;
+            }
+            
+            .agb-section ol {
+                margin-left: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .agb-section ul {
+                margin-left: 2rem;
+                margin-bottom: 1rem;
+            }
+            
+            .agb-section p {
+                margin-bottom: 1rem;
+                line-height: 1.6;
+            }
+            
+            .back-to-top {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background-color: var(--primary-color);
+                color: white;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                opacity: 0;
+                transition: opacity 0.3s;
+                z-index: 1000;
+            }
+            
+            .back-to-top.visible {
+                opacity: 1;
+            }
+            
+            .toc {
+                background-color: rgba(0,127,139,0.05);
+                padding: 1.5rem;
+                border-radius: 8px;
+                margin-bottom: 2rem;
+            }
+            
+            .toc h3 {
+                margin-top: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .toc ol {
+                margin-bottom: 0;
+                counter-reset: item;
+                list-style-type: none;
+                padding-left: 0;
+            }
+            
+            .toc li {
+                margin-bottom: 0.5rem;
+                counter-increment: item;
+            }
+            
+            .toc li::before {
+                content: counter(item) ".";
+                display: inline-block;
+                width: 1.5em;
+                margin-left: 0em;
+                margin-right: 0.5em;
+                text-align: right;
+                color: var(--primary-color);
+            }
+            
+            .section-number {
+                font-weight: bold;
+                color: var(--primary-color);
+                margin-right: 0.5em;
+            }
+            
+            .sub-section {
+                margin-left: 1.5rem;
+            }
+            
+            .sub-section-title {
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+            }
+            
+            .last-update {
+                margin-top: 2rem;
+                font-style: italic;
+            }
+        </style>
+    </head>
+    <body>
+    <header class="site-header">
+        <div class="nav-inner header-container">
+                    <div class="logo">
+                <a href="/index.html" title="Zur Startseite - Linn Games Augmented Reality und KI-Lösungen">
+                    <img src="/static/images/logo.webp" alt="Linn Games Logo" width="150" height="150" fetchpriority="high">
+                </a>
+            </div>
+          
+            <nav class="nav-links main-nav" id="mainNav">
+                <ul>
+                    <li><a href="/index.html" aria-label="Startseite - Schere-Stein-Papier mit Augmented Reality">Start</a></li>
+                    <li><a href="/pages/Games.html" aria-label="Games - Interaktive Browserspiele und Gamification-Lösungen">Games</a></li>
+                    <li><a href="/pages/AI.html" aria-label="KI-Lösungen - Objekterkennung und maschinelles Lernen">AI</a></li>
+                    <li><a href="/pages/WebDevelopment.html" aria-label="Webentwicklung - Zukunftssichere Lösungen für Unternehmen">WebDevelopment</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" data-fa-icon="moon">
+                <i class="fas fa-moon" aria-hidden="true"></i>
+            </button>
+            <button class="menu-toggle" type="button" id="menu-toggle" aria-label="Navigation öffnen">
+                <span></span>
+            </button>
+        </div>
+        <div class="nav-mobile" id="nav-mobile">
+            <a href="/index.html">Start</a>
+            <a href="/pages/Games.html">Games</a>
+            <a href="/pages/AI.html">AI</a>
+            <a href="/pages/WebDevelopment.html">WebDevelopment</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section id="agb" class="legal-section" fetchpriority="high">
+                <h2>Allgemeine Geschäftsbedingungen (AGB)</h2>
+                
+                <div class="toc">
+                    <h3>Inhaltsverzeichnis</h3>
+                    <ol>
+                        <li><a href="#geltungsbereich">Geltungsbereich und Anbieter</a></li>
+                        <li><a href="#registrierung">Registrierung und Benutzerkonto</a></li>
+                        <li><a href="#nutzungsregeln">Nutzungsregeln für den Multiplayer und die Kommunikation</a></li>
+                        <li><a href="#kosten">Kosten, Werbung und Inhalte des Angebots</a></li>
+                        <li><a href="#digitale-kaeufe">Digitale Käufe und Widerrufsrecht</a></li>
+                        <li><a href="#haftung">Haftung und Gewährleistung</a></li>
+                        <li><a href="#sanktionen">Sanktionen bei Verstößen / Sperrung des Accounts</a></li>
+                        <li><a href="#freistellung">Haftungsfreistellung durch den Nutzer</a></li>
+                        <li><a href="#laufzeit">Laufzeit, Kündigung und Änderungen des Dienstes</a></li>
+                        <li><a href="#schlussbestimmungen">Schlussbestimmungen</a></li>
+                    </ol>
+                </div>
+                
+                <div id="geltungsbereich" class="agb-section">
+                    <h3><span class="section-number">1.</span> Geltungsbereich und Anbieter</h3>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">1.1</p>
+                        <p>Diese Allgemeinen Geschäftsbedingungen (nachfolgend "AGB") regeln die Nutzung der deutschsprachigen Website sowie des Online-Spiels (zusammen nachfolgend "Dienst" oder "Angebot") von Linn.Games – im Folgenden "Anbieter" genannt – durch die registrierten Nutzer des Angebots. Nutzer im Sinne dieser AGB sind sowohl Besucher der Website als auch Spieler des Unity-Spiels (nachfolgend auch "Spieler" genannt). Die AGB gelten für alle Inhalte, Funktionen und Dienstleistungen, die im Rahmen der Website und des Spiels angeboten werden.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">1.2</p>
+                        <p>Abweichende Geschäftsbedingungen der Nutzer finden keine Anwendung, es sei denn, der Anbieter stimmt ihrer Geltung ausdrücklich schriftlich zu. Mit der Registrierung eines Benutzerkontos oder – falls keine gesonderte Registrierung auf der Website erforderlich ist – mit der Aufnahme der Nutzung des Spiels erklärt sich der Nutzer mit der Geltung dieser AGB einverstanden.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">1.3</p>
+                        <p>Begriffsbestimmungen: In diesen AGB werden nachfolgende Begriffe verwendet: Der "Anbieter" ist die verantwortliche Stelle, die das Spiel und die Website betreibt. "Spieler" oder "Nutzer" bezeichnet die Person, die das Spiel spielt bzw. die Website nutzt. Unter dem "Spiel" ist das vom Anbieter entwickelte Unity-Online-Spiel zu verstehen, einschließlich aller dazugehörigen Dienste (z.B. Multiplayer-Modus, Kommunikationsfunktionen). Die "Website" bezeichnet die vom Anbieter betriebene Internetseite, auf der Informationen zum Spiel bereitgestellt werden und ggf. ein Login oder Forum angeboten wird.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">1.4</p>
+                        <p>Diese AGB gelten unabhängig davon, ob das Spiel über unsere Website (z.B. als WebGL-Build) oder über andere Plattformen/Clients (Desktop, Mobile-App etc.) genutzt wird. Zusätzliche platform-spezifische Bedingungen (z.B. Nutzungsbedingungen des App-Stores) bleiben unberührt und gelten im jeweiligen Anwendungsbereich ergänzend.</p>
+                    </div>
+                </div>
+                
+                <div id="registrierung" class="agb-section">
+                    <h3><span class="section-number">2.</span> Registrierung und Benutzerkonto</h3>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">2.1 Account-Pflicht</p>
+                        <p>Die Nutzung des Multiplayer-Spiels und bestimmter Funktionen der Website setzt die Erstellung eines Benutzerkontos voraus. Der Nutzer ist verpflichtet, bei der Registrierung wahrheitsgemäße und vollständige Angaben zu machen. Insbesondere muss eine gültige E-Mail-Adresse angegeben werden. Alternativ kann, soweit angeboten, eine Anmeldung über Drittanbieter (Unity OAuth, ggf. zukünftig GitHub OAuth) erfolgen. In diesem Fall gelten ergänzend die Bedingungen des jeweiligen Authentifizierungsanbieters, und es wird ein verknüpftes Spielerkonto erstellt.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">2.2 Alter des Nutzers</p>
+                        <p>Mit der Registrierung versichert der Nutzer, dass er gemäß den Gesetzen seines Landes volljährig ist oder mit Zustimmung eines Erziehungsberechtigten handelt. Nutzer unter 16 Jahren benötigen die Einwilligung der Eltern, insbesondere im Hinblick auf datenschutzrechtliche Einwilligungen (wenn z.B. erforderlich).</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">2.3 Vertraulichkeit der Zugangsdaten</p>
+                        <p>Der Nutzer ist dafür verantwortlich, seine Zugangsdaten (Login, Passwort) vertraulich zu behandeln. Das Passwort ist nicht an Dritte weiterzugeben und sollte regelmäßig geändert werden. Sollte der Nutzer den Verdacht haben, dass ein Dritter Kenntnis von seinen Zugangsdaten erlangt hat oder sein Konto unbefugt nutzt, hat er den Anbieter umgehend zu informieren und sein Passwort unverzüglich zu ändern. Der Anbieter übernimmt keine Haftung für Schäden aus einem vom Nutzer verschuldeten Missbrauch des Kontos.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">2.4 Account-Nutzung</p>
+                        <p>Jeder Nutzer darf grundsätzlich nur einen Account erstellen, sofern der Anbieter nicht ausdrücklich Mehrfachaccounts erlaubt. Das Benutzerkonto ist personalisiert und darf nur vom registrierten Nutzer selbst genutzt werden. Account Sharing (die gemeinschaftliche Nutzung eines Accounts durch mehrere Personen) und Account Trading (der Verkauf/Übertragung von Accounts) sind untersagt, sofern nicht vom Anbieter schriftlich gestattet.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">2.5 Profil und Nutzungsdaten</p>
+                        <p>Im Rahmen des Accounts kann der Nutzer ein Profil anlegen (z.B. Avatar, Profilname). Der Nutzer ist angehalten, keine beleidigenden, obszönen oder anderweitig unangemessenen Profilinformationen oder Benutzernamen zu wählen. Der Anbieter behält sich das Recht vor, Profile oder Nutzernamen, die gegen gute Sitten oder geltendes Recht verstoßen, nach vorheriger Aufforderung zu ändern oder im Wiederholungsfall zu sperren.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">2.6 Konto-Löschung</p>
+                        <p>Der Nutzer kann sein Benutzerkonto jederzeit löschen lassen, indem er dem Anbieter eine entsprechende Mitteilung zukommen lässt oder – sofern technisch vorgesehen – die Löschfunktion im Profil nutzt. Der Anbieter kann das Benutzerkonto eines Nutzers löschen oder sperren, wenn ein wichtiger Grund vorliegt (siehe hierzu Ziffer 7 dieser AGB).</p>
+                    </div>
+                </div>
+                
+                <div id="nutzungsregeln" class="agb-section">
+                    <h3><span class="section-number">3.</span> Nutzungsregeln für den Multiplayer und die Kommunikation</h3>
+                    
+                    <p>Die folgenden Verhaltensregeln gelten für alle Nutzer während der Nutzung des Multiplayer-Spiels und der Kommunikationsmöglichkeiten (Chat, Foren, etc.):</p>
+                    
+                    <ul>
+                        <li>
+                            <strong>Respektvoller Umgang:</strong> Die Nutzer haben sich jederzeit freundlich, respektvoll und fair gegenüber anderen Spielern zu verhalten. Beleidigungen, Belästigungen, diskriminierende oder rassistische Äußerungen, Mobbing, Drohungen oder sonstiges anstößiges Verhalten gegenüber Mitspielern sind streng untersagt.
+                        </li>
+                        <li>
+                            <strong>Kein Missbrauch der Kommunikationsfunktionen:</strong> Der Chat und andere Kommunikationskanäle im Spiel dürfen nicht für Spam, Werbung (außer ggf. vom Anbieter genehmigte Eigenwerbung), politisches oder religiöses Missionieren oder die Verbreitung unpassender/gesetzeswidriger Inhalte genutzt werden. Insbesondere dürfen keine Inhalte verbreitet werden, die Gewalt verherrlichen, pornografisch sind, extremistische Positionen vertreten oder gegen Jugendschutzgesetze verstoßen.
+                        </li>
+                        <li>
+                            <strong>Verbot von Cheats und Exploits:</strong> Den Spielern ist es untersagt, unerlaubte Hilfsmittel, Cheats, Bots oder Hacks zu nutzen, um sich im Spiel einen Vorteil zu verschaffen. Ebenso verboten ist das Ausnutzen von Programmfehlern oder Schwachstellen (Exploits). Erkennt ein Spieler eine solche Schwachstelle, sollte er sie dem Anbieter melden, anstatt sie auszunutzen.
+                        </li>
+                        <li>
+                            <strong>Keine Störung des Spielbetriebs:</strong> Handlungen, die den ordnungsgemäßen Betrieb des Spiels stören, sind zu unterlassen. Dazu gehören insbesondere gezielte Überlastungen des Servers, Angriffe (z.B. DDoS), das massenhafte Erstellen von Fake-Accounts oder das Vortäuschen falscher Identitäten, um andere Spieler zu täuschen.
+                        </li>
+                        <li>
+                            <strong>Spielregeln und Anweisungen des Teams:</strong> Die Nutzer haben die ggf. im Spiel bekannt gemachten Spielregeln (wie etwa Regeln für Wettbewerbe, Gilden/Clans usw.) zu befolgen. Den Anweisungen des Anbieters und seiner Beauftragten (z.B. Moderatoren oder Game-Mastern) ist Folge zu leisten. Diese sind berechtigt, bei Verstößen geeignete Maßnahmen im Spiel zu ergreifen.
+                        </li>
+                        <li>
+                            <strong>Eigene Verantwortlichkeit für Inhalte:</strong> Jeder Nutzer ist für die von ihm im Spiel oder auf der Website publizierten Inhalte (z.B. Chatnachrichten, Forenposts) selbst verantwortlich. Unzulässige Inhalte können vom Anbieter entfernt werden. Der Nutzer stellt den Anbieter von Ansprüchen Dritter frei, die aus einer von ihm zu vertretenden Verletzung dieser Nutzungsregeln resultieren.
+                        </li>
+                    </ul>
+                    
+                    <p>Ein Verstoß gegen diese Verhaltenspflichten kann gemäß Ziffer 7 (Sanktionen) zu einer Verwarnung, temporären Sperre oder dauerhaften Kündigung des Nutzungsverhältnisses führen.</p>
+                </div>
+                
+                <div id="kosten" class="agb-section">
+                    <h3><span class="section-number">4.</span> Kosten, Werbung und Inhalte des Angebots</h3>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">4.1 Kostenloses Grundangebot</p>
+                        <p>Die Nutzung der Website sowie der grundlegenden Spielinhalte ist für die Nutzer kostenlos. Insbesondere ist das Herunterladen oder der Zugriff auf das Spiel (einschließlich WebGL-Versionen im Browser) und dessen Basisspielfunktionen mit keinerlei Gebühren für den Spieler verbunden (Free-to-Play). Alle Informationen auf der Website werden unentgeltlich bereitgestellt.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">4.2 Optionale digitale Käufe</p>
+                        <p>Der Anbieter behält sich vor, optionale digitale Zusatzinhalte oder Dienste gegen Entgelt anzubieten (siehe hierzu Ziffer 5). Solche käuflich zu erwerbenden Inhalte können z.B. Erweiterungen des Spiels, virtuelle Güter (In-Game-Items, Skins, Währung) oder eigenständige zusätzliche Spiele sein. Der Erwerb dieser digitalen Inhalte ist freiwillig und nicht Voraussetzung, um das Hauptspiel nutzen zu können.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">4.3 Werbung im Spiel</p>
+                        <p>Auf der Website selbst wird keine Werbung von Drittanbietern eingeblendet. Das Webangebot ist frei von externen Werbebannern oder Werbe-Cookies. Allerdings kann der Anbieter in bestimmten Versionen des Spiels (z.B. Android/iOS-Mobile-App) Werbung schalten, um die kostenlose Bereitstellung des Spiels zu unterstützen. Solche Werbeeinblendungen erfolgen im üblichen Rahmen (z.B. Video-Ads oder Banner innerhalb des Spiels) und werden – wenn möglich – als solche kenntlich gemacht. In der PC-Version oder WebGL-Version des Spiels sowie auf der offiziellen Website erfolgt keine Werbeschaltung. Der Anbieter verpflichtet sich, keine aufdringlichen oder unangemessenen Werbeinhalte anzuzeigen. Ggf. gelten für in der Mobile-App eingebundene Werbenetzwerke eigene Datenschutzrichtlinien, auf die in der Datenschutzerklärung hingewiesen wird.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">4.4 Änderungen des Angebots und der Inhalte</p>
+                        <p>Der Anbieter ist berechtigt, das Spiel, die Website oder einzelne Inhalte daraus weiterzuentwickeln, zu ändern oder einzustellen, um das Nutzererlebnis zu verbessern oder sich verändernden Rahmenbedingungen anzupassen. Hierzu zählen z.B. Updates, Patches, Balancing-Anpassungen oder das Hinzufügen/Entfernen von Features. Die Nutzer haben keinen Anspruch auf Beibehaltung bestimmter einzelner Spielinhalte oder -funktionen, soweit diese nicht ausdrücklich zugesichert wurden. Sollte der Anbieter das gesamte Angebot dauerhaft einstellen, wird er dies mit angemessener Frist im Voraus ankündigen (siehe Ziffer 9 zur Beendigung des Dienstes).</p>
+                    </div>
+                </div>
+                
+                <div id="digitale-kaeufe" class="agb-section">
+                    <h3><span class="section-number">5.</span> Digitale Käufe und Widerrufsrecht</h3>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">5.1 Vertragsschluss bei digitalen Inhalten</p>
+                        <p>Wenn der Nutzer über die Website oder im Spiel digitale Inhalte käuflich erwirbt (z.B. kostenpflichtige Spiel-Erweiterungen, In-Game-Währung oder DLCs), kommt ein Vertrag zwischen dem Nutzer und dem Anbieter über die Bereitstellung dieser digitalen Inhalte zustande. Der Bestellvorgang wird dem Nutzer im Rahmen des Kaufs erläutert. Mit Abschluss der Bestellung (z.B. Klick auf einen "Kaufen"-Button und erfolgreiche Zahlung) akzeptiert der Nutzer die zu dem Zeitpunkt geltenden Konditionen für den digitalen Kauf.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">5.2 Bereitstellung der Inhalte</p>
+                        <p>Die gekauften digitalen Inhalte werden dem Nutzer in der Regel unmittelbar nach Kaufabschluss in seinem Account bzw. im Spiel freigeschaltet. Dies kann etwa bedeuten, dass ein erworbenes Spiel direkt zum Download bereitsteht oder ein In-Game-Item sofort im Benutzerkonto gutgeschrieben wird. Der Nutzer willigt ein, dass der Anbieter mit der Ausführung des Vertrags (der Bereitstellung des digitalen Inhalts) vor Ablauf der gesetzlichen Widerrufsfrist beginnt.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">5.3 Kein Widerrufsrecht bei digitalen Gütern</p>
+                        <p>Bei Verträgen über die Lieferung digitaler Inhalte, die nicht auf einem körperlichen Datenträger (z.B. Download von Software, Freischaltung von In-Game-Inhalten) bereitgestellt werden, steht dem Nutzer als Verbraucher grundsätzlich ein 14-tägiges Widerrufsrecht zu. Dieses Widerrufsrecht erlischt jedoch vorzeitig, wenn der Anbieter mit der Ausführung des Vertrags begonnen hat, nachdem der Nutzer (a) ausdrücklich zugestimmt hat, dass mit der Ausführung des Vertrags vor Ablauf der Widerrufsfrist begonnen wird, und (b) der Nutzer seine Kenntnis davon bestätigt hat, dass er durch diese Zustimmung mit Beginn der Ausführung des Vertrags sein Widerrufsrecht verliert. Der Anbieter wird den Nutzer im Bestellprozess deutlich auf diese Rechtsfolge hinweisen. Mit der Zustimmung und Bestätigung im Rahmen des Kaufvorgangs verzichtet der Nutzer somit auf das ihm zustehende Widerrufsrecht, sobald der digitale Inhalt zur Verfügung gestellt wurde.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">5.4 Folge des Widerrufsausschlusses</p>
+                        <p>Nachdem der digitale Inhalt bereitgestellt wurde und das Widerrufsrecht erloschen ist, kann der Nutzer den Vertrag nicht mehr rückgängig machen (kein "Zurückgeben" des digitalen Produkts gegen Erstattung). Dies hat keinen Einfluss auf etwaige Gewährleistungsansprüche bei Mängeln des gekauften Inhalts – diese bleiben im Rahmen der gesetzlichen Bestimmungen unberührt.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">5.5 Muster-Widerrufsbelehrung</p>
+                        <p>Ungeachtet des vorstehenden Ausschlusses erhält der Nutzer im Bestellprozess oder per E-Mail eine Widerrufsbelehrung, die auch ein Muster-Widerrufsformular enthält, für den Fall, dass in einer Konstellation doch ein Widerrufsrecht bestehen sollte. Diese Information dient der Transparenz. In Fällen, in denen kein Widerrufsrecht besteht (oder erloschen ist), wird der Nutzer entsprechend informiert.</p>
+                    </div>
+                </div>
+                
+                <div id="haftung" class="agb-section">
+                    <h3><span class="section-number">6.</span> Haftung und Gewährleistung</h3>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">6.1 Unentgeltliche Leistungen</p>
+                        <p>Für die unentgeltlich bereitgestellten Dienste (Nutzung der kostenlosen Spielversion und der Website-Inhalte) haftet der Anbieter ausschließlich bei Vorsatz und grober Fahrlässigkeit. Bei leichter Fahrlässigkeit haftet der Anbieter nur im Falle der Verletzung des Lebens, des Körpers oder der Gesundheit oder bei Verletzung einer wesentlichen Vertragspflicht. Wesentliche Vertragspflichten sind solche Pflichten, deren Erfüllung die ordnungsgemäße Durchführung des Vertrags überhaupt erst ermöglicht und auf deren Einhaltung der Nutzer regelmäßig vertrauen darf. In diesem Fall ist die Haftung des Anbieters auf den typischerweise vorhersehbaren Schaden begrenzt.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">6.2 Entgeltliche Leistungen (digitale Käufe)</p>
+                        <p>Soweit der Nutzer entgeltliche digitale Inhalte vom Anbieter erwirbt, haftet der Anbieter bei Mängeln dieser digitalen Inhalte im Rahmen der gesetzlichen Gewährleistungsvorschriften. Der Nutzer hat insbesondere das Recht, nach seiner Wahl Nacherfüllung zu verlangen (Ersatzlieferung des digitalen Inhalts oder Fehlerbehebung), sofern der digitale Inhalt mangelhaft ist. Weitergehende Ansprüche, insbesondere Schadensersatz, bestehen nur nach Maßgabe der folgenden Regelungen. Unentgeltlich bereitgestellte Bonus-Inhalte oder Geschenke erfolgen hingegen ohne Gewährleistungsversprechen.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">6.3 Haftungsausschluss für indirekte Schäden</p>
+                        <p>Der Anbieter übernimmt keine Haftung für mittelbare Schäden, Folgeschäden oder entgangenen Gewinn, die aus der Nutzung des Spiels oder der Website entstehen könnten, es sei denn, der Anbieter hat grob fahrlässig oder vorsätzlich gehandelt. Insbesondere wird keine Haftung für Datenverlust übernommen, sofern der Verlust nicht durch angemessene Datensicherungsmaßnahmen des Nutzers vermeidbar gewesen wäre. Der Nutzer ist selbst dafür verantwortlich, wichtige Daten (z.B. Spielstände soweit exportierbar, Kaufbelege etc.) regelmäßig zu sichern.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">6.4 Haftung für Inhalte Dritter</p>
+                        <p>Der Anbieter haftet nicht für Inhalte, die von Nutzern oder Dritten innerhalb des Spiels oder auf der Website bereitgestellt werden (z.B. Chat-Inhalte, Forumsbeiträge oder von Nutzern generierte Inhalte). Diese Inhalte stellen nicht die Meinung des Anbieters dar. Allerdings wird der Anbieter bei Kenntnis von rechtswidrigen Inhalten durch Nutzer diese unverzüglich entfernen und geeignete Maßnahmen gegen den verantwortlichen Nutzer ergreifen (Notice-and-Take-Down-Prinzip).</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">6.5 Verfügbarkeit des Dienstes</p>
+                        <p>Der Anbieter bemüht sich, das Spiel und die Website möglichst unterbrechungsfrei verfügbar zu halten. Jedoch übernimmt der Anbieter keine Garantie für eine bestimmte Verfügbarkeit oder Erreichbarkeit des Dienstes. Insbesondere können Wartungsarbeiten, Weiterentwicklungen oder technische Störungen (wie z.B. Stromausfälle, Hardware- oder Softwarefehler, höherer Gewalt) zu einer vorübergehenden Nichtverfügbarkeit führen. Der Nutzer erkennt an, dass es technisch nicht möglich ist, das Angebot durchgängig ohne Unterbrechungen oder Fehler bereitzustellen, und dass der Anbieter insoweit keine Haftung für Ausfallzeiten übernimmt. Bei geplanten Wartungsfenstern wird der Anbieter die Nutzer – sofern möglich – vorab über die Website oder im Spiel informieren.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">6.6 Vorbehalt zwingender Haftung</p>
+                        <p>Die vorstehenden Haftungsbeschränkungen gelten nicht, soweit der Anbieter nach zwingenden gesetzlichen Vorschriften haftet, etwa nach dem Produkthaftungsgesetz oder in Fällen der Übernahme ausdrücklicher Garantien. Ebenso bleiben die Regelungen des Verbraucherschutzrechts unberührt.</p>
+                    </div>
+                </div>
+                
+                <div id="sanktionen" class="agb-section">
+                    <h3><span class="section-number">7.</span> Sanktionen bei Verstößen / Sperrung des Accounts</h3>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">7.1 Maßnahmen bei Regelverstößen</p>
+                        <p>Verstößt ein Nutzer gegen diese AGB oder die geltenden Gesetze, kann der Anbieter – unter Berücksichtigung der Schwere des Verstoßes und des bisherigen Verhaltens des Nutzers – geeignete Maßnahmen ergreifen. Als milderes Mittel kann zunächst eine Verwarnung ausgesprochen oder eine temporäre Einschränkung bestimmter Funktionen (z.B. Chatsperre, zeitweiliger Ausschluss vom Multiplayer) vorgenommen werden. Bei schwerwiegenden oder wiederholten Verstößen ist der Anbieter berechtigt, den Nutzer vorübergehend oder dauerhaft vom Spiel auszuschließen (Account-Sperrung bzw. Kündigung des Nutzungsverhältnisses).</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">7.2 Gründe für Sperrung</p>
+                        <p>Eine Sperrung oder Kündigung des Accounts kann insbesondere in folgenden Fällen erfolgen:</p>
+                        <ul>
+                            <li>
+                                <strong>Erhebliche Verletzung der Nutzungsregeln:</strong> z.B. anhaltendes Mobbing anderer Spieler, Verbreitung verbotener Inhalte, Cheating trotz Verwarnung.
+                            </li>
+                            <li>
+                                <strong>Identitätsmissbrauch oder Betrug:</strong> falsche Angaben bei der Registrierung, unbefugte Nutzung fremder Accounts, Zahlungsbetrug bei Käufen.
+                            </li>
+                            <li>
+                                <strong>Gefährdung der Systemsicherheit:</strong> gezielte Angriffe auf Server, Versuch der Manipulation der Software, Ausnutzen von Exploits in schädigender Absicht.
+                            </li>
+                            <li>
+                                <strong>Sonstige wichtige Gründe:</strong> jeder andere schwerwiegende Grund, der dem Anbieter die Fortführung des Vertrags mit dem Nutzer unzumutbar macht.
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">7.3 Verfahren</p>
+                        <p>Soweit zumutbar, wird der Anbieter den Nutzer vor einer dauerhaften Sperrung zunächst abmahnen oder zur Stellungnahme auffordern. Erfolgt keine Besserung oder ist der Verstoß so gravierend, dass eine sofortige Maßnahme erforderlich ist, kann die Sperrung ohne vorherige Ankündigung erfolgen. Der Nutzer wird über die Sperrung und deren Gründe informiert. Bei einer temporären Sperre wird auch die Dauer der Sperre mitgeteilt.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">7.4 Folgen der Sperrung</p>
+                        <p>Im Falle einer dauerhaften Sperrung wird das Benutzerkonto des Nutzers gelöscht oder deaktiviert. Der Nutzer darf sich mit keinem anderen Account erneut anmelden, es sei denn, er hat hierzu die ausdrückliche Erlaubnis des Anbieters. Etwaige im Voraus gezahlte Entgelte für noch nicht verbrauchte digitale Inhalte werden im Falle einer berechtigten fristlosen Kündigung durch den Anbieter aufgrund Verschuldens des Nutzers nicht erstattet. Der Anspruch des Anbieters auf Schadensersatz oder Geltendmachung sonstiger Ansprüche wegen des Verstoßes bleibt unberührt.</p>
+                    </div>
+                </div>
+                
+                <div id="freistellung" class="agb-section">
+                    <h3><span class="section-number">8.</span> Haftungsfreistellung durch den Nutzer</h3>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">8.1</p>
+                        <p>Sollte der Nutzer durch sein Verhalten (z.B. Upload/Verbreitung von Inhalten, Verletzung von Pflichten) schuldhaft Rechte Dritter oder gesetzliche Vorschriften verletzen, stellt er den Anbieter von allen daraus resultierenden Ansprüchen Dritter auf erste Anforderung frei. Dies umfasst auch angemessene Kosten der Rechtsverteidigung (Gerichts- und Anwaltskosten) in gesetzlicher Höhe, die dem Anbieter aufgrund der Rechtsverletzung entstehen, sofern der Nutzer die Rechtsverletzung zu vertreten hat.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">8.2</p>
+                        <p>Voraussetzung für die Freistellungsverpflichtung ist, dass der Anbieter den Nutzer unverzüglich über geltend gemachte Ansprüche Dritter informiert und dem Nutzer die Möglichkeit zur Stellungnahme bzw. Verteidigung lässt, soweit dies rechtlich möglich ist. Der Nutzer ist verpflichtet, dem Anbieter nach Treu und Glauben alle ihm verfügbaren Informationen bereitzustellen, die für die Prüfung der Ansprüche und eine Verteidigung erforderlich sind.</p>
+                    </div>
+                </div>
+                
+                <div id="laufzeit" class="agb-section">
+                    <h3><span class="section-number">9.</span> Laufzeit, Kündigung und Änderungen des Dienstes</h3>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">9.1 Laufzeit des Nutzungsverhältnisses</p>
+                        <p>Der Nutzungsvertrag zwischen dem Anbieter und dem Nutzer wird auf unbestimmte Zeit geschlossen und beginnt mit der erfolgreichen Registrierung des Accounts bzw. mit Beginn der Nutzung des Spiels. Beide Parteien können das Nutzungsverhältnis jederzeit ordentlich kündigen. Der Nutzer kann hierzu sein Konto löschen (siehe Ziffer 2.6), der Anbieter kann eine Kündigung durch Sperrung und Mitteilung an den Nutzer aussprechen. Eine ordentliche Kündigung durch den Anbieter ist mit einer Frist von 2 Wochen möglich.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">9.2 Außerordentliche Kündigung</p>
+                        <p>Das Recht zur außerordentlichen Kündigung aus wichtigem Grund bleibt unberührt. Für den Anbieter liegt ein wichtiger Grund zur fristlosen Kündigung insbesondere in den in Ziffer 7.2 genannten Fällen vor (schwerwiegende Verstöße des Nutzers). Für den Nutzer liegt ein wichtiger Grund vor, wenn dem Nutzer die Fortsetzung der Nutzung des Dienstes objektiv unzumutbar ist (z.B. erhebliche Änderung der Leistungsbeschreibung zu Ungunsten des Nutzers ohne Möglichkeit des Rücktritts).</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">9.3 Einstellung des Angebots</p>
+                        <p>Der Anbieter behält sich das Recht vor, den Betrieb des Spiels und der Website insgesamt einzustellen. Eine solche Einstellung wird Nutzern mindestens 30 Tage im Voraus per Hinweis auf der Website und/oder per E-Mail angekündigt. Der Nutzer hat im Fall der Einstellung des Dienstes die Möglichkeit, bis zum Wirksamwerden der Beendigung erworbene digitale Inhalte zu nutzen oder (nach Möglichkeit) zu exportieren. Nach Einstellung des Dienstes besteht kein Anspruch des Nutzers auf Aufrechterhaltung der Online-Funktionen. Bereits gezahlte Entgelte für noch nicht nutzbare, aber bereits erworbene digitale Inhalte wird der Anbieter dem Nutzer anteilig erstatten, sofern die Dienst-Einstellung einer vorzeitigen Vertragsbeendigung gleichkommt. Gesetzliche Kündigungsrechte und Entschädigungsansprüche des Nutzers bleiben unberührt.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">9.4 Änderungen der AGB</p>
+                        <p>Der Anbieter ist berechtigt, diese AGB mit Wirkung für die Zukunft zu ändern oder zu ergänzen, sofern dies aufgrund gesetzlicher Änderungen, gerichtlicher Entscheidungen oder technischer Anpassungen des Spiels erforderlich ist oder um neue Funktionen/Services abzubilden. Änderungen der AGB werden dem Nutzer rechtzeitig vor ihrem Inkrafttreten in geeigneter Weise mitgeteilt (z.B. durch Benachrichtigung per E-Mail oder durch Hinweis beim Login auf der Website/Spiel). Der Nutzer hat das Recht, den Änderungen binnen einer Frist von 4 Wochen ab Mitteilung zu widersprechen. Widerspricht der Nutzer nicht innerhalb dieser Frist schriftlich oder in Textform (z.B. per E-Mail), gelten die geänderten AGB als angenommen. Der Anbieter wird den Nutzer in der Änderungsmitteilung auf das Widerspruchsrecht und die Folgen des Schweigens (fingierte Zustimmung) ausdrücklich hinweisen. Widerspricht der Nutzer fristgerecht, können beide Parteien das Nutzungsverhältnis außerordentlich kündigen, sofern eine Fortsetzung unter den bisherigen Bedingungen für den Anbieter nicht zumutbar ist.</p>
+                    </div>
+                </div>
+                
+                <div id="schlussbestimmungen" class="agb-section">
+                    <h3><span class="section-number">10.</span> Schlussbestimmungen</h3>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">10.1 Anwendbares Recht</p>
+                        <p>Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts (CISG). Wenn der Nutzer Verbraucher mit gewöhnlichem Aufenthalt in der EU ist, bleiben die zwingenden Verbraucherschutzbestimmungen und das zwingende Datenschutzrecht seines Aufenthaltslandes zusätzlich anwendbar und gehen im Konfliktfall den deutschen Bestimmungen vor.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">10.2 Gerichtsstand</p>
+                        <p>Sofern der Nutzer Kaufmann im Sinne des Handelsgesetzbuches, juristische Person des öffentlichen Rechts oder öffentlich-rechtliches Sondervermögen ist, ist der Geschäftssitz des Anbieters ausschließlicher Gerichtsstand für alle aus diesen AGB entstehenden Streitigkeiten. In allen anderen Fällen gelten die gesetzlichen Gerichtsstandsregelungen.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">10.3 Salvatorische Klausel</p>
+                        <p>Sollten einzelne Bestimmungen dieser AGB ganz oder teilweise unwirksam sein oder werden, so bleibt die Wirksamkeit der übrigen Bestimmungen hiervon unberührt. Anstelle der unwirksamen oder fehlenden Bestimmung tritt die jeweilige gesetzliche Regelung. Gleiches gilt für etwaige Regelungslücken.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">10.4 Vertragssprache</p>
+                        <p>Die für den Vertragsschluss maßgebliche Sprache und die Sprache dieser AGB ist Deutsch. Übersetzungen in andere Sprachen dienen nur der Information. Bei Unterschieden zwischen der deutschen Fassung und Übersetzungen hat die deutsche Version dieser AGB Vorrang.</p>
+                    </div>
+                    
+                    <div class="sub-section">
+                        <p class="sub-section-title">10.5 Kontakt und Impressum</p>
+                        <p>Angaben zum Anbieter, einschließlich der ladungsfähigen Anschrift und Kontaktdaten, sind dem <a href="/pages/Impressum.html">Impressum</a> auf der Website zu entnehmen. Bei Fragen zu diesen AGB oder dem Spiel können sich Nutzer an <a href="mailto:info@linn.games">info@linn.games</a> wenden.</p>
+                    </div>
+                </div>
+                
+                <p class="last-update">
+                    <strong>Stand dieser AGB:</strong> April 2025
+                </p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-inner footer-container">
+            <div class="footer-column">
+                <h3>About Linn Games</h3>
+                <p>A modern game portal featuring exciting browser-based 3D games with impressive graphics and engaging gameplay.</p>
+                <div class="social-links">
+                    <a href="https://github.com/nileneb" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://discord.gg/cY2nQVW4MZ" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+                <!-- SSL Trust Seal with lazy loading -->
+                <div class="ssl-seal">
+                    <img src="/static/images/positivessl_trust_seal_md_167x42.png" alt="SSL-Sicherheitszertifikat - Gesicherte Verbindung" width="167" height="42" loading="lazy" fetchpriority="low">
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="/index.html">Startseite - AR Spiele & KI</a></li>
+                    <li><a href="/pages/Games.html">Interaktive Browserspiele</a></li>
+                    <li><a href="/pages/AI.html">KI & Objekterkennung</a></li>
+                    <li><a href="/pages/WebDevelopment.html">Professionelle Webentwicklung</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/pages/Impressum.html">Impressum</a></li>
+                    <li><a href="/dsgvo.html">Datenschutz</a></li>
+                    <li><a href="/AGB.html">AGB</a></li>
+                    <li><a href="https://discord.gg/cY2nQVW4MZ">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li>
+                        <a href="mailto:info@linn.games">
+                            <i class="fas fa-envelope"></i> info@linn.games
+                        </a>
+                    </li>
+                    <li><i class="fas fa-map-marker-alt"></i> 68623, Lampertheim</li>
+                    <li><i class="fas fa-phone"></i> On request</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 www.linn.games. All rights reserved.
+        </div>
+    </footer>
+    
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop" aria-label="Zurück nach oben">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+    
+    <!-- Script for Back to Top Button -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backToTopButton = document.getElementById('backToTop');
+            
+            // Show button when user scrolls down
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+            
+            // Smooth scroll to top when button is clicked
+            backToTopButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+    <script>
+        // Mobile nav toggler
+        (function(){
+            const toggle = document.getElementById('menu-toggle');
+            const mobileNav = document.getElementById('nav-mobile');
+            if (!toggle || !mobileNav) return;
+            toggle.addEventListener('click', () => {
+                toggle.classList.toggle('active');
+                mobileNav.classList.toggle('open');
+            });
+            mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+                toggle.classList.remove('active');
+                mobileNav.classList.remove('open');
+            }));
+        })();
+    </script>
+</body>
+</html>

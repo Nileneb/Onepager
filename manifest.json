@@ -1,0 +1,79 @@
+{
+  "name": "Linn Games",
+  "short_name": "LinnGames",
+  "description": "Interaktive Browserspiele und KI-Lösungen für Unternehmen",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#007f8b",
+  "categories": ["games", "business", "ai", "development"],
+  "icons": [
+    {
+      "src": "/assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon-192x192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon-512x512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Spiele",
+      "short_name": "Spiele",
+      "description": "Browse unsere Spiele",
+      "url": "/pages/Games.html",
+      "icons": [{ "src": "/assets/icons/games-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "KI-Lösungen",
+      "short_name": "KI",
+      "description": "Entdecke unsere KI-Lösungen",
+      "url": "/pages/AI.html",
+      "icons": [{ "src": "/assets/icons/ai-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/screenshots/home-1280x720.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/assets/screenshots/webdev-1280x720.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Web Development Services"
+    },
+    {
+      "src": "/assets/screenshots/ai-1280x720.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "AI Solutions"
+    },
+    {
+      "src": "/assets/screenshots/games-1280x720.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Interactive Games"
+    }
+  ]
+}
