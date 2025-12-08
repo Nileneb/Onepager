@@ -38,18 +38,10 @@ function persistCounter() {
   );
 }
 
-// Basic security headers
+// Basic security headers - relaxed for inline styles/scripts
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      useDefaults: true,
-      directives: {
-        "default-src": ["'self'"],
-        "img-src": ["'self'", "data:", "https://avatars.githubusercontent.com"],
-        "style-src": ["'self'", "'unsafe-inline'"],
-        "script-src": ["'self'"]
-      }
-    },
+    contentSecurityPolicy: false, // Disable CSP for development - inline styles/scripts allowed
     crossOriginResourcePolicy: { policy: "cross-origin" }
   })
 );
@@ -57,8 +49,9 @@ app.use(
 app.use(compression());
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 
-// Static
+// Static files
 app.use(express.static("public", { maxAge: "1h", etag: true }));
+app.use("/static", express.static("static", { maxAge: "1d", etag: true }));
 
 // Health endpoint
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
@@ -83,7 +76,7 @@ app.get("/api/github", async (_req, res) => {
       return res.json(cache.data);
     }
     const headers = {
-      "User-Agent": "mau-linn-games",
+      "User-Agent": "www-linn-games",
       "Accept": "application/vnd.github+json"
     };
     if (GITHUB_TOKEN) headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
@@ -116,5 +109,5 @@ app.get("*", (_req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`mau.linn.games listening on http://0.0.0.0:${PORT}`);
+  console.log(`www.linn.games listening on http://0.0.0.0:${PORT}`);
 });

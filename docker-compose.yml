@@ -1,8 +1,7 @@
-version: "3.9"
 services:
-  linn.games:
+  linngames:
     build: .
-    container_name: linn.games
+    container_name: linngames
     ports:
       - "5502:3000"              # Host:Container
     restart: always

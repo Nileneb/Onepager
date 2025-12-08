@@ -16,6 +16,7 @@ RUN npm install --omit=dev
 # App-Dateien
 COPY server.js ./server.js
 COPY public ./public
+COPY static ./static
 
 # Non-root
 RUN addgroup -S app && adduser -S app -G app
