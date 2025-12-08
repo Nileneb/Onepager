@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  linn.games:
+    build: .
+    container_name: linn.games
+    ports:
+      - "5502:3000"              # Host:Container
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      # Optional: GITHUB_TOKEN für höhere Ratenlimits (read-only PAT)
+      # - GITHUB_TOKEN=ghp_xxxxx
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s

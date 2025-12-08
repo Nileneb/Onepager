@@ -1,0 +1,18 @@
+{
+  "name": "mau-linn-games",
+  "version": "1.0.0",
+  "description": "Cat-Campaign site (mau.linn.games) – Big Berlin Hack showcase",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "NODE_ENV=development node server.js"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "node-fetch": "^3.3.2"
+  }
+}
