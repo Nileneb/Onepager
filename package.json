@@ -1,7 +1,7 @@
 {
-  "name": "mau-linn-games",
+  "name": "linn-games-onepager",
   "version": "1.0.0",
-  "description": "Cat-Campaign site (mau.linn.games) – Big Berlin Hack showcase",
+  "description": "Linn Games – Interactive Games, KI-Lösungen & Web-Apps",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -9,6 +9,7 @@
     "dev": "NODE_ENV=development node server.js"
   },
   "dependencies": {
+    "better-sqlite3": "^11.7.0",
     "compression": "^1.7.4",
     "express": "^4.22.1",
     "helmet": "^7.1.0",

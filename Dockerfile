@@ -1,8 +1,8 @@
 # Node 20 LTS, klein & sicher
 FROM node:20-alpine
 
-# System: curl für Healthcheck optional
-RUN apk add --no-cache curl
+# System: curl für Healthcheck, sqlite-dev und su-exec für Permissions
+RUN apk add --no-cache curl python3 make g++ sqlite-dev su-exec
 
 # Arbeitsverzeichnis
 WORKDIR /app
@@ -17,10 +17,14 @@ RUN npm install --omit=dev
 COPY server.js ./server.js
 COPY public ./public
 COPY static ./static
+COPY docker-entrypoint.sh ./docker-entrypoint.sh
 
-# Non-root
-RUN addgroup -S app && adduser -S app -G app
-USER app
+# Create data dir and ensure app user owns it
+RUN mkdir -p /app/data && chown -R node:node /app/data
+RUN chmod +x /app/docker-entrypoint.sh
+
+# Runtime as root but entrypoint will switch to node using su-exec
+USER root
 
 ENV NODE_ENV=production
 ENV PORT=3000
@@ -31,4 +35,5 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
     CMD curl -fsS http://localhost:3000/health || exit 1
 
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["node", "server.js"]

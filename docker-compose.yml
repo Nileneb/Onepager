@@ -5,6 +5,9 @@ services:
     ports:
       - "5502:3000"              # Host:Container
     restart: always
+    # Using a named volume avoids host permission issues
+    volumes:
+      - linngames-data:/app/data
     environment:
       - NODE_ENV=production
       - PORT=3000
@@ -16,3 +19,7 @@ services:
       timeout: 3s
       retries: 3
       start_period: 10s
+
+volumes:
+  linngames-data:
+    driver: local

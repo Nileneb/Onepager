@@ -2365,8 +2365,8 @@
                 </div>
               </div>
 
-              <!-- Hinweis: Action/Method nach Bedarf im Backend anpassen -->
-              <form class="contact-form" method="post" action="#">
+              <!-- Contact Form - Handled via JavaScript -->
+              <form class="contact-form" id="contact-form">
                 <div class="form-group">
                   <label for="name">Name</label>
                   <input
@@ -2624,6 +2624,76 @@
         }
 
         setInterval(updateTelemetry, 3000);
+
+        // ============================================
+        // CONTACT FORM SUBMISSION
+        // ============================================
+        const contactForm = document.querySelector(".contact-form");
+        if (contactForm) {
+          contactForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Wird gesendet...</span>';
+
+            // Gather form data
+            const formData = {
+              name: contactForm.querySelector("#name").value,
+              company: contactForm.querySelector("#company").value || null,
+              email: contactForm.querySelector("#email").value,
+              project_type: contactForm.querySelector("#project-type").value,
+              message: contactForm.querySelector("#message").value,
+              timeline: contactForm.querySelector("#timeline").value || null,
+            };
+
+            try {
+              const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+              });
+
+              const result = await response.json();
+
+              if (response.ok && result.success) {
+                // Success - show message and reset form
+                submitBtn.innerHTML = '<span>✓ Gesendet!</span>';
+                submitBtn.style.background = "linear-gradient(135deg, #10b981, #059669)";
+                contactForm.reset();
+                
+                // Reset button after 3 seconds
+                setTimeout(function () {
+                  submitBtn.innerHTML = originalBtnText;
+                  submitBtn.style.background = "";
+                  submitBtn.disabled = false;
+                }, 3000);
+              } else {
+                // Error from server
+                throw new Error(result.message || "Ein Fehler ist aufgetreten");
+              }
+            } catch (error) {
+              console.error("[contact] Error:", error);
+              submitBtn.innerHTML = '<span>✗ Fehler</span>';
+              submitBtn.style.background = "linear-gradient(135deg, #ef4444, #dc2626)";
+              
+              // Show error alert
+              alert("Fehler beim Senden: " + error.message);
+              
+              // Reset button after 2 seconds
+              setTimeout(function () {
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.style.background = "";
+                submitBtn.disabled = false;
+              }, 2000);
+            }
+          });
+        }
 
         // Console Easter Egg
         console.log(
