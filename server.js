@@ -4,6 +4,7 @@ import compression from "compression";
 import morgan from "morgan";
 import fetch from "node-fetch";
 import Database from "better-sqlite3";
+import crypto from "crypto";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -60,6 +61,51 @@ app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 // Static files
 app.use(express.static("public", { maxAge: "1h", etag: true }));
 app.use("/static", express.static("static", { maxAge: "1d", etag: true }));
+
+// === HTTP Basic Auth middleware for /chat ===
+function basicAuth(req, res, next) {
+  const CHAT_USER = process.env.CHAT_USER || "";
+  const CHAT_PASSWORD = process.env.CHAT_PASSWORD || "";
+
+  if (!CHAT_USER || !CHAT_PASSWORD) {
+    // Credentials not configured — deny access
+    return res.status(503).send("Chat not configured.");
+  }
+
+  const authHeader = req.headers["authorization"] || "";
+  if (!authHeader.startsWith("Basic ")) {
+    res.set("WWW-Authenticate", 'Basic realm="Linn Games Chat"');
+    return res.status(401).send("Authentication required.");
+  }
+
+  let user, password;
+  try {
+    const decoded = Buffer.from(authHeader.slice(6), "base64").toString("utf8");
+    const colon = decoded.indexOf(":");
+    user = decoded.slice(0, colon);
+    password = decoded.slice(colon + 1);
+  } catch {
+    res.set("WWW-Authenticate", 'Basic realm="Linn Games Chat"');
+    return res.status(401).send("Authentication required.");
+  }
+
+  // Constant-time comparison to prevent timing attacks
+  const userMatch = crypto.timingSafeEqual(
+    Buffer.from(user.padEnd(256)),
+    Buffer.from(CHAT_USER.padEnd(256))
+  );
+  const passMatch = crypto.timingSafeEqual(
+    Buffer.from(password.padEnd(256)),
+    Buffer.from(CHAT_PASSWORD.padEnd(256))
+  );
+
+  if (!userMatch || !passMatch) {
+    res.set("WWW-Authenticate", 'Basic realm="Linn Games Chat"');
+    return res.status(401).send("Invalid credentials.");
+  }
+
+  next();
+}
 
 // Health endpoint
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
@@ -158,6 +204,11 @@ app.get("/api/github", async (_req, res) => {
   } catch (e) {
     res.status(500).json({ error: "server_error" });
   }
+});
+
+// === Protected chat page ===
+app.get("/chat", basicAuth, (_req, res) => {
+  res.sendFile(process.cwd() + "/views/chat.html");
 });
 
 // Fallback to index.html (SPA-style)

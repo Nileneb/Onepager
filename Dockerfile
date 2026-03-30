@@ -17,6 +17,7 @@ RUN npm install --omit=dev
 COPY server.js ./server.js
 COPY public ./public
 COPY static ./static
+COPY views ./views
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
 
 # Create data dir and ensure app user owns it

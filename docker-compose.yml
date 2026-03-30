@@ -13,6 +13,8 @@ services:
       - PORT=3000
       # Optional: GITHUB_TOKEN für höhere Ratenlimits (read-only PAT)
       # - GITHUB_TOKEN=ghp_xxxxx
+      - CHAT_USER=admin          # vor dem Deploy setzen
+      - CHAT_PASSWORD=changeme   # vor dem Deploy setzen
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
       interval: 30s
